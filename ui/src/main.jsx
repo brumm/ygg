@@ -51,17 +51,13 @@ const App = () => {
       keepPreviousData: true,
     },
     {
-      // TODO figure out whether actionParentId is needed
-      queryKey: ['action children', { actionParentId, directChildId }],
+      queryKey: ['action children', { directChildId }],
       queryFn: async () => api(`/items/${directChildId}/actions`),
       enabled: directChildId !== null,
       keepPreviousData: true,
     },
     {
-      queryKey: [
-        'indirect children',
-        { indirectParentId, /* TODO directChildId,?? */ actionChildId },
-      ],
+      queryKey: ['indirect children', { indirectParentId, actionChildId }],
       queryFn: async () => {
         if (indirectParentId !== null) {
           return api(`/items/${indirectParentId ?? 'default'}/children`)
