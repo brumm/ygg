@@ -3,7 +3,7 @@ console.clear()
 import createFastify from 'fastify'
 import cors from 'fastify-cors'
 import sift from 'sift'
-import { fileIconToBuffer } from 'file-icon'
+import fastifyHttpErrorsEnhanced from 'fastify-http-errors-enhanced'
 
 import {
   getActionsForItem,
@@ -23,6 +23,7 @@ const fastify = createFastify({
 })
 
 fastify.register(cors)
+fastify.register(fastifyHttpErrorsEnhanced, { hideUnhandledErrors: false })
 
 const plugins = [fileSystemPlugin, corePlugin, plainTextPlugin]
 

@@ -126,6 +126,16 @@ ajv@^8.1.0:
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
+ajv@^8.6.2:
+  version "8.8.1"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.8.1.tgz#e73dd88eeb4b10bbcd82bee136e6fbe801664d18"
+  integrity sha512-6CiMNDrzv0ZR916u2T+iRunnD60uWmNn8SkdB44/6stVORUg0aAkWO7PkOhpCmjmW8f2I/G/xnowD66fxGyQJg==
+  dependencies:
+    fast-deep-equal "^3.1.1"
+    json-schema-traverse "^1.0.0"
+    require-from-string "^2.0.2"
+    uri-js "^4.2.2"
+
 ansi-align@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/ansi-align/-/ansi-align-3.0.1.tgz#0cdf12e111ace773a86e9a1fad1225c43cb19a59"
@@ -793,6 +803,15 @@ fastify-error@^0.3.0:
   resolved "https://registry.yarnpkg.com/fastify-error/-/fastify-error-0.3.1.tgz#8eb993e15e3cf57f0357fc452af9290f1c1278d2"
   integrity sha512-oCfpcsDndgnDVgiI7bwFKAun2dO+4h84vBlkWsWnz/OUK9Reff5UFoFl241xTiLeHWX/vU9zkDVXqYUxjOwHcQ==
 
+fastify-http-errors-enhanced@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/fastify-http-errors-enhanced/-/fastify-http-errors-enhanced-3.0.2.tgz#3021562569de0fa91a2d87fd7be6a7874e20f550"
+  integrity sha512-ZimXepsn/LZWVzTQW16v7ePDvdl6FhgD6HpX0WtHfclwe6vLYCioRl3KeWEF37ySVGXic8DUx8A4zAZjctIhbg==
+  dependencies:
+    ajv "^8.6.2"
+    fastify-plugin "^3.0.0"
+    http-errors-enhanced "^1.0.0"
+
 fastify-plugin@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-3.0.0.tgz#cf1b8c8098e3b5a7c8c30e6aeb06903370c054ca"
@@ -1012,6 +1031,11 @@ http-cache-semantics@^4.0.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/http-cache-semantics/-/http-cache-semantics-4.1.0.tgz#49e91c5cbf36c9b94bcfcd71c23d5249ec74e390"
   integrity sha512-carPklcUh7ROWRK7Cv27RPtdhYhUsela/ue5/jKzjegVvXDqM2ILE9Q2BGn9JZJh1g87cp56su/FgQSzcWS8cQ==
+
+http-errors-enhanced@^1.0.0:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/http-errors-enhanced/-/http-errors-enhanced-1.0.2.tgz#b436b600d465d1fbf2cba7d74d195103347ed172"
+  integrity sha512-dfHwFrls6/updSnuXt/IngKiUBpr2LeYb0siS5irzUfw4XpxOQaZ+X6vfTo16WLIwlAWOZ6N/wFnNKJPEcANqw==
 
 ieee754@^1.1.13:
   version "1.2.1"
