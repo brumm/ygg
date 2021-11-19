@@ -56,7 +56,7 @@ for (const plugin of plugins) {
 context.providers = providers
 context.actions = actions
 
-// todo move to lib
+// todo move to lib if actions are just items
 const getActionById = (id) => {
   return actions.find(sift({ id }))
 }
