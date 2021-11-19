@@ -1,0 +1,27 @@
+TODO
+
+tackle hiddenItem filter and generic filters
+tackle hidden/visible "source items"
+attempt to select previous item after navigate to parent
+finish copy to clipboard action
+implement github plugin
+make core settings configurable
+attempt to make action like items
+remember window position
+center window during resize
+streamline preload/command dance by iterating over exports
+virtualize item rendering and keep active item in view
+attempt to move useEffects into custom hook
+
+toString(item) to make stable ids
+hash thing internally
+
++++ USE IT +++
+change quicksilver shortcut
+make ygg default
+
+providers
+  github
+  windows
+  processes
+  

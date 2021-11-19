@@ -1,0 +1,23 @@
+{
+  "name": "ygg-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node index.js",
+    "test": "ava --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^3.22.1",
+    "fastify-cors": "^6.0.2",
+    "file-icon": "^5.0.0",
+    "sift": "^15.0.0"
+  },
+  "devDependencies": {
+    "ava": "^3.15.0"
+  }
+}

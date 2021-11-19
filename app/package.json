@@ -1,0 +1,30 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "electron .",
+    "build": "electron-builder --dir",
+    "prod": "electron-builder"
+  },
+  "build": {
+    "appId": "af.brumm.ygg",
+    "productName": "Yggdrasil",
+    "mac": {
+      "icon": "512.png",
+      "target": "dir",
+      "category": "public.app-category.utilities"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^15.3.1",
+    "electron-builder": "^22.13.1"
+  },
+  "dependencies": {
+    "esm": "^3.2.25"
+  }
+}
