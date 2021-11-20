@@ -41,7 +41,9 @@ const App = () => {
   const [parentIds, setParentIds] = React.useState([null, null, null])
   const [childIds, setChildIds] = React.useState([null, null, null])
 
-  const [directParentId, actionParentId, indirectParentId] = parentIds
+  // actions are never hasChildren:true, their parentId is never used
+  // prettier-ignore
+  const [directParentId, /* actionParentId unused ,*/ indirectParentId] = parentIds
   const [directChildId, actionChildId, indirectChildId] = childIds
 
   const selectedChildId = childIds[parentIndex]
