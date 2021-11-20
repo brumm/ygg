@@ -49,6 +49,9 @@ export const getActionsForItem = async (item, context) => {
     }),
   )
 
+  // TODO this happens in the wrong place, actions should
+  // get ids assigned before they are put into context.actions
+  // this causes actions to not have an when they are fetched via getActionById
   for (const action of actions) {
     action.id = action.id || makeId()
   }
