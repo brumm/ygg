@@ -47,6 +47,8 @@ app.on('will-quit', () => {
     window.show()
   })
 
+  // window.on('blur', () => app.hide())
+
   window.loadURL('http://localhost:3000')
 })()
 
