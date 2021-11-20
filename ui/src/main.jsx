@@ -254,7 +254,11 @@ const App = () => {
             return
           }
 
-          if ('abcdefghijklmnopqrstuvwxyz'.includes(event.key.toLowerCase())) {
+          if (
+            'abcdefghijklmnopqrstuvwxyz1234567890'.includes(
+              event.key.toLowerCase(),
+            )
+          ) {
             event.preventDefault()
             setParentIds((ids) => {
               const selectedIds = [...ids]
