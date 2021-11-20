@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import ReactDOM from 'react-dom'
 import { QueryClient, QueryClientProvider, useQueries } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
+import { matchSorter } from 'match-sorter'
 
 import './index.css'
 import clsx from 'clsx'
@@ -75,9 +76,9 @@ const App = () => {
   ])
 
   const filteredListItems = itemsQueries.map((query, index) =>
-    query.data?.filter((item) =>
-      item.name.toLowerCase().includes(filterTexts[index].toLowerCase()),
-    ),
+    matchSorter(query.data || [], filterTexts[index], {
+      keys: ['name', 'details'],
+    }),
   )
 
   // --- clear a lists filter text when its parent changes
