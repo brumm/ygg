@@ -309,12 +309,7 @@ const App = () => {
   return (
     <Fragment>
       <div className="flex flex-col w-screen h-screen text-gray-400 bg-gray-800">
-        <div
-          className="relative inline-flex gap-4 p-4"
-          style={{
-            boxShadow: '0 1px rgba(0, 0, 0, 0.2)',
-          }}
-        >
+        <div className="relative inline-flex gap-4 p-4">
           {childIds.map((itemId, itemIndex) => {
             const item = itemsQueries[itemIndex]?.data?.find(
               (item) => item.id === itemId,
@@ -331,12 +326,18 @@ const App = () => {
                 key={itemIndex}
                 onClick={() => setParentIndex(itemIndex)}
                 className={clsx(
-                  'flex flex-col items-center justify-center rounded-md flex-shrink-0 w-[9.5rem] h-36',
+                  'flex flex-col items-center justify-center rounded-md flex-shrink-0 w-[9.5rem] h-36 relative',
                   {
                     'bg-gray-700': isSelected,
                   },
                 )}
               >
+                {filterTexts[itemIndex] && (
+                  <div className="absolute px-2 py-1 text-xs bg-black bg-opacity-50 rounded top-2 left-2">
+                    {filterTexts[itemIndex]}
+                  </div>
+                )}
+
                 {itemIndex === 1 && item
                   ? item && (
                       <img
@@ -365,6 +366,8 @@ const App = () => {
             )
           })}
         </div>
+
+        <hr className="border-gray-900" />
 
         <div className="flex-1 overflow-y-auto">
           {filteredListItems[parentIndex]?.map((item) => {
