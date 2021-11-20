@@ -40,7 +40,7 @@ const presets = [
 ]
 
 const catalogProvider = (context) => ({
-  id: 'catalog',
+  id: 'catalogProvider',
   providesItemsForTypes: ['catalog'],
   async run() {
     const catalogItems = await Promise.all(
