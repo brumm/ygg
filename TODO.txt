@@ -25,3 +25,5 @@ providers
   windows
   processes
   
+easter egg
+  truncate paths like MSDOS if on smb share
