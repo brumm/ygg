@@ -8,6 +8,8 @@ import './index.css'
 import clsx from 'clsx'
 import { wrapAround } from '../../server/utils'
 
+console.clear()
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
