@@ -120,7 +120,7 @@ export const getIconForItem = async (item, context) => {
 
   if (!provider) {
     const iconBuffer = await readFile(
-      path.join(import.meta.url.replace('file:', ''), '../images/item.png'),
+      path.join(import.meta.url.replace('file:', ''), '../images/missing.png'),
     )
     return iconBuffer
   }
@@ -135,7 +135,7 @@ export const getIconForItem = async (item, context) => {
     }
 
     const iconBuffer = await readFile(
-      path.join(import.meta.url.replace('file:', ''), '../images/item.png'),
+      path.join(import.meta.url.replace('file:', ''), '../images/missing.png'),
     )
     return iconBuffer
   } catch (error) {
