@@ -64,9 +64,11 @@ context.cache = cache
 initialize(context)
 
 try {
+  console.time('prime cache')
   for (const item of context.cache.core) {
     getChildrenForItem(item, context)
   }
+  console.timeEnd('prime cache')
 } catch {}
 
 // --- item
