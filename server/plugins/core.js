@@ -33,6 +33,12 @@ const presets = [
     meta: { path: '/System/Applications' },
     filter: { ...isNotHidden, ...isApplication },
   },
+  {
+    itemProviderId: 'folderProvider',
+    meta: { path: '/Users/philippbrumm/Applications' },
+    filter: { ...isNotHidden, ...isApplication },
+    // includeProviderItem: true,
+  },
   // {
   //   itemProviderId: 'githubProvider',
   //   meta: { repo: 'brumm/ygg' },
