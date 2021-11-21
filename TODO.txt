@@ -6,20 +6,20 @@ attempt to select previous item after navigate to parent
 finish copy to clipboard action
 implement github plugin
 make core settings configurable
-attempt to make action like items
-remember window position
-center window during resize
+[x] attempt to make action like items
+[x] center window during resize
 streamline preload/command dance by iterating over exports
 virtualize item rendering and keep active item in view
 attempt to move useEffects into custom hook
 handle copy/paste
+after popup, typing should overwrite existing filter
 
-toString(item) to make stable ids
-hash thing internally
+[x] toString(item) to make stable ids
+[x] hash thing internally
 
 +++ USE IT +++
-change quicksilver shortcut
-make ygg default
+[x] change quicksilver shortcut
+[x] make ygg default
 
 providers
   github
