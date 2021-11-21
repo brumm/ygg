@@ -43,7 +43,7 @@ const App = () => {
 
   // actions are never hasChildren:true, their parentId is never used
   // prettier-ignore
-  const [directParentId, /* actionParentId unused ,*/ indirectParentId] = parentIds
+  const [directParentId, actionParentId /* actionParentId is unused */, indirectParentId] = parentIds
   const [directChildId, actionChildId, indirectChildId] = childIds
 
   const selectedChildId = childIds[parentIndex]
