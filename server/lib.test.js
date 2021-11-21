@@ -1,5 +1,4 @@
 import test from 'ava'
-import sift from 'sift'
 
 import {
   getChildrenForItem,
