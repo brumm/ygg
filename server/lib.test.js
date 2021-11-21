@@ -8,13 +8,13 @@ import {
   actionCatalogItem,
 } from './lib.js'
 
-import { makeId } from './utils.js'
+export const makeRandomId = () => Math.random().toString(32).slice(2)
 
 console.clear()
 
 test('it works with a specific parent item', async (t) => {
   const parentItem = {
-    id: makeId(),
+    id: makeRandomId(),
     types: ['public.folder'],
     meta: { path: '/foo' },
   }
@@ -23,12 +23,12 @@ test('it works with a specific parent item', async (t) => {
     cache: {},
     providers: [
       {
-        id: makeId(),
+        id: makeRandomId(),
         providesItemsForTypes: ['public.folder'],
         async run({ path }) {
           return [
             {
-              id: makeId(),
+              id: makeRandomId(),
               types: ['public.folder'],
               meta: { path: `${path}/bar` },
             },
@@ -47,17 +47,17 @@ test('can provide children if item has matching provider', async (t) => {
     cache: {},
     providers: [
       {
-        id: makeId(),
+        id: makeRandomId(),
         providesItemsForTypes: itemCatalogItem.types,
         async run() {
-          return [{ id: makeId(), types: ['public.folder'] }]
+          return [{ id: makeRandomId(), types: ['public.folder'] }]
         },
       },
       {
-        id: makeId(),
+        id: makeRandomId(),
         providesItemsForTypes: ['public.folder'],
         async run() {
-          return [{ id: makeId(), types: ['public.folder'] }]
+          return [{ id: makeRandomId(), types: ['public.folder'] }]
         },
       },
     ],
@@ -71,10 +71,10 @@ test('no children if item theres no matching provider', async (t) => {
     cache: {},
     providers: [
       {
-        id: makeId(),
+        id: makeRandomId(),
         providesItemsForTypes: itemCatalogItem.types,
         async run() {
-          return [{ id: makeId(), types: ['public.folder'] }]
+          return [{ id: makeRandomId(), types: ['public.folder'] }]
         },
       },
     ],
@@ -88,10 +88,10 @@ test('it works without parentItem when having a catalog provider', async (t) => 
     cache: {},
     providers: [
       {
-        id: makeId(),
+        id: makeRandomId(),
         providesItemsForTypes: itemCatalogItem.types,
         async run() {
-          return [{ id: makeId(), types: ['public.folder'] }]
+          return [{ id: makeRandomId(), types: ['public.folder'] }]
         },
       },
     ],
@@ -110,18 +110,18 @@ test('it returns empty array when not having a catalog parentItem or provider', 
 })
 
 test('match action to item', async (t) => {
-  const item = { id: makeId(), types: ['public.folder'] }
+  const item = { id: makeRandomId(), types: ['public.folder'] }
   const foo = [
-    { id: makeId(), types: ['action'], directTypes: ['public.folder'] },
-    { id: makeId(), types: ['action'], directTypes: ['something.else'] },
-    { id: makeId(), types: ['action'], directTypes: ['public.folder'] },
+    { id: makeRandomId(), types: ['action'], directTypes: ['public.folder'] },
+    { id: makeRandomId(), types: ['action'], directTypes: ['something.else'] },
+    { id: makeRandomId(), types: ['action'], directTypes: ['public.folder'] },
   ]
 
   const actions = await getActionsForItem(item, {
     cache: {},
     providers: [
       {
-        id: makeId(),
+        id: makeRandomId(),
         providesItemsForTypes: actionCatalogItem.types,
         async run() {
           return foo
@@ -142,12 +142,12 @@ test('match action to item', async (t) => {
 
 test('get indirect item matching parent and action', async (t) => {
   const parentItem = {
-    id: makeId(),
+    id: makeRandomId(),
     types: ['public.folder'],
     meta: { path: '/foo' },
   }
   const action = {
-    id: makeId(),
+    id: makeRandomId(),
     types: ['action'],
     directTypes: ['public.folder'],
     indirectTypes: ['com.apple.application'],
@@ -157,17 +157,17 @@ test('get indirect item matching parent and action', async (t) => {
     cache: {},
     providers: [
       {
-        id: makeId(),
+        id: makeRandomId(),
         providesItemsForTypes: ['public.folder'],
         async run({ path }) {
           return [
             {
-              id: makeId(),
+              id: makeRandomId(),
               types: ['public.folder'],
               meta: { path: `${path}/bar` },
             },
             {
-              id: makeId(),
+              id: makeRandomId(),
               types: ['com.apple.application'],
               meta: { path: `${path}/baz` },
             },
@@ -184,7 +184,7 @@ test('get indirect item matching parent and action', async (t) => {
 
 test('get indirect item matching catalog and action', async (t) => {
   const action = {
-    id: makeId(),
+    id: makeRandomId(),
     types: ['action'],
     directTypes: ['public.folder'],
     indirectTypes: ['com.apple.application'],
@@ -194,12 +194,12 @@ test('get indirect item matching catalog and action', async (t) => {
     cache: {},
     providers: [
       {
-        id: makeId(),
+        id: makeRandomId(),
         providesItemsForTypes: itemCatalogItem.types,
         async run() {
           return [
-            { id: makeId(), types: ['public.folder'] },
-            { id: makeId(), types: ['com.apple.application'] },
+            { id: makeRandomId(), types: ['public.folder'] },
+            { id: makeRandomId(), types: ['com.apple.application'] },
           ]
         },
       },
@@ -210,17 +210,19 @@ test('get indirect item matching catalog and action', async (t) => {
   t.is(item.types[0], 'com.apple.application')
 })
 
-test('can us', async (t) => {
+test('can use action catalog items', async (t) => {
   const [item] = await getChildrenForItem(actionCatalogItem, {
-    cache: {},
+    cache: {
+      core: [itemCatalogItem, actionCatalogItem],
+    },
     providers: [
       {
-        id: makeId(),
+        id: makeRandomId(),
         providesItemsForTypes: actionCatalogItem.types,
         async run() {
           return [
             {
-              id: makeId(),
+              id: makeRandomId(),
               types: ['action'],
             },
           ]

@@ -2,7 +2,7 @@ import { readFile } from 'fs/promises'
 
 import sift from 'sift'
 
-import { makeId } from './utils.js'
+import { itemToId } from './utils.js'
 import path from 'path'
 
 const debug = false
@@ -34,7 +34,7 @@ export const getChildrenForItem = async (parentItem, context) => {
   }
 
   for (const item of children) {
-    item.id = item.id || makeId()
+    item.id = item.id || itemToId(item)
     item.parentId = parentItem.id
     item.hasChildren = context.providers.some(
       sift({ providesItemsForTypes: { $in: item.types } }),
@@ -58,7 +58,7 @@ export const getActionsForItem = async (item, context) => {
   }
 
   for (const item of actions) {
-    item.id = item.id || makeId()
+    item.id = item.id || itemToId(item)
     item.parentId = actionCatalogItem.id
     item.hasChildren = context.providers.some(
       sift({ providesItemsForTypes: { $in: item.types } }),
