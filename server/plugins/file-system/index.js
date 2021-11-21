@@ -3,6 +3,7 @@ import { basename, extname } from 'path'
 import os from 'os'
 import childProcess from 'child_process'
 import { fileIconToBuffer } from 'file-icon'
+import expandTilde from 'expand-tilde'
 
 import getFileMetadata from './getFileMetadata.js'
 
@@ -37,6 +38,8 @@ const folderItemsProvider = {
     // watch(path).on('change', () => {
     //   context.clearKey(itemId)
     // })
+
+    path = expandTilde(path)
 
     const folderContents = await readdir(path)
     const folderItems = await Promise.all(

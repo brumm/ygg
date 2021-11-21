@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "expand-tilde": "^2.0.2",
     "fastify": "^3.22.1",
     "fastify-cors": "^6.0.2",
     "fastify-http-errors-enhanced": "^3.0.2",

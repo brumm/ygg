@@ -5,22 +5,22 @@ import { isNotHidden, isApplication } from '../filters.js'
 const presets = [
   {
     itemProviderId: 'folderProvider',
-    meta: { path: '/Users/philippbrumm/Code' },
+    meta: { path: '~/Code' },
     filter: isNotHidden,
   },
   {
     itemProviderId: 'folderProvider',
-    meta: { path: '/Users/philippbrumm' },
+    meta: { path: '~' },
     filter: isNotHidden,
   },
   {
     itemProviderId: 'folderProvider',
-    meta: { path: '/Users/philippbrumm/Downloads' },
+    meta: { path: '~/Downloads' },
     filter: isNotHidden,
   },
   {
     itemProviderId: 'folderProvider',
-    meta: { path: '/Users/philippbrumm/Desktop' },
+    meta: { path: '~/Desktop' },
     filter: isNotHidden,
   },
   {
@@ -35,7 +35,7 @@ const presets = [
   },
   {
     itemProviderId: 'folderProvider',
-    meta: { path: '/Users/philippbrumm/Applications' },
+    meta: { path: '~/Applications' },
     filter: { ...isNotHidden, ...isApplication },
     // includeProviderItem: true,
   },
