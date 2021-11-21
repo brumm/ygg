@@ -12,6 +12,7 @@ center window during resize
 streamline preload/command dance by iterating over exports
 virtualize item rendering and keep active item in view
 attempt to move useEffects into custom hook
+handle copy/paste
 
 toString(item) to make stable ids
 hash thing internally
