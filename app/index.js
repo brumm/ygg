@@ -47,7 +47,7 @@ app.on('will-quit', () => {
     window.show()
   })
 
-  // window.on('blur', () => app.hide())
+  window.on('hide', () => app.hide())
 
   window.on('show', () => {
     globalShortcut.register('Esc', () => {
