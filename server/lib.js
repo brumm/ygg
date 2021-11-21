@@ -8,12 +8,12 @@ import path from 'path'
 const debug = false
 const log = debug ? console.log : () => {}
 
-const itemCatalogItem = {
+export const itemCatalogItem = {
   id: 'item-catalog',
   types: ['item-catalog'],
 }
 
-const actionCatalogItem = {
+export const actionCatalogItem = {
   id: 'action-catalog',
   types: ['action-catalog'],
 }

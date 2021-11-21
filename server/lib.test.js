@@ -4,22 +4,13 @@ import {
   getChildrenForItem,
   getActionsForItem,
   getIndirectsForAction,
-  runProvider,
+  itemCatalogItem,
+  actionCatalogItem,
 } from './lib.js'
 
 import { makeId } from './utils.js'
 
 console.clear()
-
-const itemCatalogItem = {
-  id: 'item-catalog',
-  types: ['item-catalog'],
-}
-
-const actionCatalogItem = {
-  id: 'action-catalog',
-  types: ['action-catalog'],
-}
 
 test('it works with a specific parent item', async (t) => {
   const parentItem = {
@@ -55,7 +46,7 @@ test('can provide children if item has matching provider', async (t) => {
     providers: [
       {
         id: makeId(),
-        providesItemsForTypes: ['item-catalog'],
+        providesItemsForTypes: itemCatalogItem.types,
         async run() {
           return [{ id: makeId(), types: ['public.folder'] }]
         },
@@ -78,7 +69,7 @@ test('no children if item theres no matching provider', async (t) => {
     providers: [
       {
         id: makeId(),
-        providesItemsForTypes: ['item-catalog'],
+        providesItemsForTypes: itemCatalogItem.types,
         async run() {
           return [{ id: makeId(), types: ['public.folder'] }]
         },
@@ -94,7 +85,7 @@ test('it works without parentItem when having a catalog provider', async (t) => 
     providers: [
       {
         id: makeId(),
-        providesItemsForTypes: ['item-catalog'],
+        providesItemsForTypes: itemCatalogItem.types,
         async run() {
           return [{ id: makeId(), types: ['public.folder'] }]
         },
@@ -125,7 +116,7 @@ test('match action to item', async (t) => {
     providers: [
       {
         id: makeId(),
-        providesItemsForTypes: ['action-catalog'],
+        providesItemsForTypes: actionCatalogItem.types,
         async run() {
           return foo
         },
@@ -196,7 +187,7 @@ test('get indirect item matching catalog and action', async (t) => {
     providers: [
       {
         id: makeId(),
-        providesItemsForTypes: ['item-catalog'],
+        providesItemsForTypes: itemCatalogItem.types,
         async run() {
           return [
             { id: makeId(), types: ['public.folder'] },
@@ -216,7 +207,7 @@ test('can us', async (t) => {
     providers: [
       {
         id: makeId(),
-        providesItemsForTypes: ['action-catalog'],
+        providesItemsForTypes: actionCatalogItem.types,
         async run() {
           return [
             {
