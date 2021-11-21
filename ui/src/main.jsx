@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { QueryClient, QueryClientProvider, useQueries } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { matchSorter } from 'match-sorter'
+import { useImmer } from 'use-immer'
 
 import './index.css'
 import clsx from 'clsx'
@@ -39,10 +40,10 @@ const App = ({
   itemCatalogId = 'item-catalog',
   actionCatalogId = 'action-catalog',
 }) => {
-  const [parentIndex, setParentIndex] = React.useState(0)
-  const [filterTexts, setFilterTexts] = React.useState(['', '', ''])
-  const [parentIds, setParentIds] = React.useState([null, null, null])
-  const [childIds, setChildIds] = React.useState([null, null, null])
+  const [parentIndex, setParentIndex] = useImmer(0)
+  const [filterTexts, setFilterTexts] = useImmer(['', '', ''])
+  const [parentIds, setParentIds] = useImmer([null, null, null])
+  const [childIds, setChildIds] = useImmer([null, null, null])
 
   // actions are never hasChildren:true, their parentId is never used
   // prettier-ignore
@@ -91,26 +92,34 @@ const App = ({
   // --- clear a lists filter text when its parent changes
 
   React.useLayoutEffect(() => {
-    setFilterTexts(([direct, action, indirect]) => ['', action, indirect])
-  }, [directParentId])
+    setFilterTexts((draft) => {
+      draft[0] = ''
+    })
+  }, [directParentId, setFilterTexts])
 
   // actions can't descend into other actions, so parent never changes
 
   React.useLayoutEffect(() => {
-    setFilterTexts(([direct, action, indirect]) => [direct, action, ''])
-  }, [indirectParentId])
+    setFilterTexts((draft) => {
+      draft[2] = ''
+    })
+  }, [indirectParentId, setFilterTexts])
 
   // --- clear a down-stream filterText when the selected child changes
 
   // direct has no up-stream child
 
   React.useLayoutEffect(() => {
-    setFilterTexts(([direct, action, indirect]) => [direct, '', indirect])
-  }, [directChildId])
+    setFilterTexts((draft) => {
+      draft[1] = ''
+    })
+  }, [directChildId, setFilterTexts])
 
   React.useLayoutEffect(() => {
-    setFilterTexts(([direct, action, indirect]) => [direct, action, ''])
-  }, [actionChildId])
+    setFilterTexts((draft) => {
+      draft[2] = ''
+    })
+  }, [actionChildId, setFilterTexts])
 
   // --- each list auto selects its first item
 
@@ -124,35 +133,39 @@ const App = ({
   // select first item of direct list
   React.useLayoutEffect(() => {
     if (firstDirectChildListItemId) {
-      setChildIds(([direct, action, indirect]) => [
-        firstDirectChildListItemId,
-        action,
-        indirect,
-      ])
+      setChildIds((draft) => {
+        draft[0] = firstDirectChildListItemId
+      })
     }
-  }, [firstDirectChildListItemId])
+  }, [firstDirectChildListItemId, setChildIds])
 
   // select first item of action list
   React.useLayoutEffect(() => {
     if (firstActionChildListItemId) {
-      setChildIds(([direct, action, indirect]) => [
-        direct,
-        firstActionChildListItemId,
-        indirect,
-      ])
+      setChildIds((draft) => {
+        draft[1] = firstActionChildListItemId
+      })
     }
-  }, [firstActionChildListItemId, firstDirectChildListItemId, directChildId])
+  }, [
+    firstActionChildListItemId,
+    firstDirectChildListItemId,
+    directChildId,
+    setChildIds,
+  ])
 
   // select first item of indirect list
   React.useLayoutEffect(() => {
     if (firstIndirectChildListItemId) {
-      setChildIds(([direct, action, indirect]) => [
-        direct,
-        action,
-        firstIndirectChildListItemId,
-      ])
+      setChildIds((draft) => {
+        draft[2] = firstIndirectChildListItemId
+      })
     }
-  }, [firstIndirectChildListItemId, firstDirectChildListItemId, actionChildId])
+  }, [
+    firstIndirectChildListItemId,
+    firstDirectChildListItemId,
+    actionChildId,
+    setChildIds,
+  ])
 
   const shouldShowIndirect =
     itemsQueries[1]?.data?.find((item) => item.id === actionChildId)
@@ -173,15 +186,15 @@ const App = ({
 
         case 'ArrowRight': {
           event.preventDefault()
+          // console.log(event.altKey)
+
           const item = filteredListItems[parentIndex].find(
             (item) => item.id === selectedChildId,
           )
 
           if (item.hasChildren === true) {
-            setParentIds((ids) => {
-              const selectedIds = [...ids]
-              selectedIds[parentIndex] = selectedChildId
-              return selectedIds
+            setParentIds((draft) => {
+              draft[parentIndex] = selectedChildId
             })
           }
           break
@@ -198,12 +211,10 @@ const App = ({
             `/items/${parentId || itemCatalogId}`,
           )
 
-          setParentIds((ids) => {
-            const selectedIds = [...ids]
+          setParentIds((draft) => {
             // TODO this assumes (correctly) that actions will never have children
-            selectedIds[parentIndex] =
+            draft[parentIndex] =
               itemParentId === itemCatalogId ? null : itemParentId
-            return selectedIds
           })
           break
         }
@@ -223,10 +234,8 @@ const App = ({
           )
           const nextItem = filteredListItems[parentIndex][nextIndex]
 
-          setChildIds((ids) => {
-            const selectedIds = [...ids]
-            selectedIds[parentIndex] = nextItem?.id
-            return selectedIds
+          setChildIds((draft) => {
+            draft[parentIndex] = nextItem?.id
           })
           break
         }
@@ -253,10 +262,8 @@ const App = ({
 
         case 'Backspace': {
           event.preventDefault()
-          setFilterTexts((texts) => {
-            const filterTexts = [...texts]
-            filterTexts[parentIndex] = ''
-            return filterTexts
+          setFilterTexts((draft) => {
+            draft[parentIndex] = ''
           })
           break
         }
@@ -272,15 +279,11 @@ const App = ({
             )
           ) {
             event.preventDefault()
-            setParentIds((ids) => {
-              const selectedIds = [...ids]
-              selectedIds[parentIndex] = itemCatalogId
-              return selectedIds
+            setParentIds((draft) => {
+              draft[parentIndex] = itemCatalogId
             })
-            setFilterTexts((texts) => {
-              const filterTexts = [...texts]
-              filterTexts[parentIndex] += event.key.toLowerCase()
-              return filterTexts
+            setFilterTexts((draft) => {
+              draft[parentIndex] += event.key.toLowerCase()
             })
           }
         }
@@ -301,6 +304,10 @@ const App = ({
     parentIds,
     parentIndex,
     selectedChildId,
+    setChildIds,
+    setFilterTexts,
+    setParentIds,
+    setParentIndex,
     shouldShowIndirect,
   ])
 
@@ -391,10 +398,8 @@ const App = ({
                 }
                 key={item.id}
                 onClick={() =>
-                  setChildIds((ids) => {
-                    const selectedIds = [...ids]
-                    selectedIds[parentIndex] = item.id
-                    return selectedIds
+                  setChildIds((draft) => {
+                    draft[parentIndex] = item.id
                   })
                 }
                 className={clsx(
