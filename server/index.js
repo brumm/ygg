@@ -13,6 +13,7 @@ import {
   getIconForAction,
   getActionById,
   initialize,
+  runProvider,
 } from './lib.js'
 
 import * as fileSystemPlugin from './plugins/file-system.js'
@@ -61,6 +62,12 @@ context.actions = actions
 context.cache = cache
 
 initialize(context)
+
+try {
+  for (const item of context.cache.core) {
+    getChildrenForItem(item, context)
+  }
+} catch {}
 
 // --- item
 
