@@ -18,9 +18,9 @@ export const actionCatalogItem = {
   types: ['action-catalog'],
 }
 
-const cache = (global.cache = {
-  core: [itemCatalogItem, actionCatalogItem],
-})
+export const initialize = (context) => {
+  context.cache.core = [itemCatalogItem, actionCatalogItem]
+}
 
 export const getChildrenForItem = async (parentItem, context) => {
   const matchingProviders = context.providers.filter(
@@ -29,7 +29,7 @@ export const getChildrenForItem = async (parentItem, context) => {
 
   let children = []
   for (const provider of matchingProviders) {
-    const items = await runProvider(provider, parentItem.meta)
+    const items = await runProvider(provider, parentItem.meta, context)
     children = children.concat(items)
   }
 
@@ -46,12 +46,14 @@ export const getChildrenForItem = async (parentItem, context) => {
 
 export const getActionsForItem = async (item, context) => {
   const matchingProviders = context.providers.filter(
-    sift({ providesItemsForTypes: { $in: actionCatalogItem.types } }),
+    sift({
+      providesItemsForTypes: { $in: actionCatalogItem.types },
+    }),
   )
 
   let actions = []
   for (const provider of matchingProviders) {
-    const items = await runProvider(provider, actionCatalogItem.meta)
+    const items = await runProvider(provider, actionCatalogItem.meta, context)
     actions = actions.concat(items)
   }
 
@@ -82,22 +84,22 @@ export const getIndirectsForAction = async (
   return items.filter(sift({ types: { $in: actionItem.indirectTypes } }))
 }
 
-export const runProvider = async (provider, meta) => {
+export const runProvider = async (provider, meta, context) => {
   const cacheKey = JSON.stringify([provider.id, meta])
 
-  if (cache[cacheKey]) {
+  if (context.cache[cacheKey]) {
     log('[cache] cache hit', cacheKey)
-    return cache[cacheKey]
+    return context.cache[cacheKey]
   }
 
   log('[cache] cache miss', cacheKey)
   const items = await provider.run(meta)
-  cache[cacheKey] = items
+  context.cache[cacheKey] = items
   return items
 }
 
-export const getItemById = (id) => {
-  const allItems = Object.values(cache).flat()
+export const getItemById = (id, context) => {
+  const allItems = Object.values(context.cache).flat()
   return allItems.find((item) => item.id === id)
 }
 
@@ -144,7 +146,6 @@ export const getIconForItem = async (item, context) => {
 
 const actionIconCache = {}
 export const getIconForAction = async (action, context) => {
-  console.log(action.id)
   const cacheKey = action.id
 
   if (actionIconCache[cacheKey]) {

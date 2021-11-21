@@ -20,6 +20,7 @@ test('it works with a specific parent item', async (t) => {
   }
 
   const [item] = await getChildrenForItem(parentItem, {
+    cache: {},
     providers: [
       {
         id: makeId(),
@@ -43,6 +44,7 @@ test('it works with a specific parent item', async (t) => {
 
 test('can provide children if item has matching provider', async (t) => {
   const [item] = await getChildrenForItem(itemCatalogItem, {
+    cache: {},
     providers: [
       {
         id: makeId(),
@@ -66,6 +68,7 @@ test('can provide children if item has matching provider', async (t) => {
 
 test('no children if item theres no matching provider', async (t) => {
   const [item] = await getChildrenForItem(itemCatalogItem, {
+    cache: {},
     providers: [
       {
         id: makeId(),
@@ -82,6 +85,7 @@ test('no children if item theres no matching provider', async (t) => {
 
 test('it works without parentItem when having a catalog provider', async (t) => {
   const [item] = await getChildrenForItem(itemCatalogItem, {
+    cache: {},
     providers: [
       {
         id: makeId(),
@@ -98,6 +102,7 @@ test('it works without parentItem when having a catalog provider', async (t) => 
 
 test('it returns empty array when not having a catalog parentItem or provider', async (t) => {
   const [item] = await getChildrenForItem(itemCatalogItem, {
+    cache: {},
     providers: [],
   })
 
@@ -113,6 +118,7 @@ test('match action to item', async (t) => {
   ]
 
   const actions = await getActionsForItem(item, {
+    cache: {},
     providers: [
       {
         id: makeId(),
@@ -148,6 +154,7 @@ test('get indirect item matching parent and action', async (t) => {
   }
 
   const [item] = await getIndirectsForAction(parentItem, action, {
+    cache: {},
     providers: [
       {
         id: makeId(),
@@ -184,6 +191,7 @@ test('get indirect item matching catalog and action', async (t) => {
   }
 
   const [item] = await getIndirectsForAction(itemCatalogItem, action, {
+    cache: {},
     providers: [
       {
         id: makeId(),
@@ -204,6 +212,7 @@ test('get indirect item matching catalog and action', async (t) => {
 
 test('can us', async (t) => {
   const [item] = await getChildrenForItem(actionCatalogItem, {
+    cache: {},
     providers: [
       {
         id: makeId(),

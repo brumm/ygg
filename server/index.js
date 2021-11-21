@@ -12,6 +12,7 @@ import {
   getIconForItem,
   getIconForAction,
   getActionById,
+  initialize,
 } from './lib.js'
 
 import * as fileSystemPlugin from './plugins/file-system.js'
@@ -28,6 +29,8 @@ fastify.register(fastifyHttpErrorsEnhanced, { hideUnhandledErrors: false })
 const plugins = [fileSystemPlugin, corePlugin, plainTextPlugin]
 
 const context = (global.context = {})
+
+const cache = {}
 const providers = []
 const actions = []
 
@@ -55,24 +58,27 @@ for (const plugin of plugins) {
 
 context.providers = providers
 context.actions = actions
+context.cache = cache
+
+initialize(context)
 
 // --- item
 
 fastify.get('/items/:itemId', async (request, reply) => {
-  return getItemById(request.params.itemId)
+  return getItemById(request.params.itemId, context)
 })
 
 // --- direct
 
 fastify.get('/items/:itemId/children', async (request, reply) => {
-  const item = getItemById(request.params.itemId)
+  const item = getItemById(request.params.itemId, context)
   return getChildrenForItem(item, context)
 })
 
 // --- action
 
 fastify.get('/items/:itemId/actions', async (request, reply) => {
-  const item = getItemById(request.params.itemId)
+  const item = getItemById(request.params.itemId, context)
   return getActionsForItem(item, context)
 })
 
@@ -81,7 +87,7 @@ fastify.get('/items/:itemId/actions', async (request, reply) => {
 fastify.get(
   '/items/default/actions/:actionId/indirects',
   async (request, reply) => {
-    const action = getActionById(request.params.actionId)
+    const action = getActionById(request.params.actionId, context)
 
     if (!action.indirectTypes) {
       return []
@@ -94,8 +100,8 @@ fastify.get(
 fastify.get(
   '/items/:itemId/actions/:actionId/indirects',
   async (request, reply) => {
-    const item = getItemById(request.params.itemId)
-    const action = getActionById(request.params.actionId)
+    const item = getItemById(request.params.itemId, context)
+    const action = getActionById(request.params.actionId, context)
 
     if (!action.indirectTypes) {
       return []
@@ -109,9 +115,9 @@ fastify.get(
 
 fastify.post('/execute-command', async (request, reply) => {
   const { directId, actionId, indirectId } = JSON.parse(request.body)
-  const direct = getItemById(directId)
-  const action = getActionById(actionId)
-  const indirect = getItemById(indirectId)
+  const direct = getItemById(directId, context)
+  const action = getActionById(actionId, context)
+  const indirect = getItemById(indirectId, context)
 
   action.run(direct, indirect)
 
@@ -121,12 +127,12 @@ fastify.post('/execute-command', async (request, reply) => {
 // --- icons
 
 fastify.get('/items/:itemId/icon', async (request, reply) => {
-  const item = getItemById(request.params.itemId)
+  const item = getItemById(request.params.itemId, context)
   return getIconForItem(item, context)
 })
 
 fastify.get('/actions/:actionId/icon', async (request, reply) => {
-  const action = getActionById(request.params.actionId)
+  const action = getActionById(request.params.actionId, context)
   return getIconForAction(action, context)
 })
 
