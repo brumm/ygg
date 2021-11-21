@@ -1,7 +1,8 @@
 import { readFile } from 'fs/promises'
 import childProcess from 'child_process'
 
-const folderItemsProvider = {
+const plainTextProvider = {
+  id: 'plainTextProvider',
   providesItemsForTypes: ['public.plain-text'],
   async run({ path }) {
     const file = await readFile(path, { encoding: 'utf8' })
@@ -39,5 +40,5 @@ const copyToClipboardAction = {
   },
 }
 
-export const providers = [folderItemsProvider]
+export const providers = [plainTextProvider]
 export const actions = [copyToClipboardAction]
