@@ -1,7 +1,7 @@
 TODO
 
 tackle hiddenItem filter and generic filters
-tackle hidden/visible "source items"
+[x] tackle hidden/visible "source items"
 attempt to select previous item after navigate to parent
 finish copy to clipboard action
 implement github plugin
@@ -13,6 +13,8 @@ virtualize item rendering and keep active item in view
 attempt to move useEffects into custom hook
 handle copy/paste
 after popup, typing should overwrite existing filter
+text input mode
+  detect text type, match to actions (like urls)
 
 [x] toString(item) to make stable ids
 [x] hash thing internally
