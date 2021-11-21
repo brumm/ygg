@@ -60,6 +60,19 @@ const itemCatalogProvider = (context) => ({
         let items = await provider.run(preset.meta)
         items = items.filter(sift(preset.filter))
 
+        if (preset.includeProviderItem && provider.getProviderItemName) {
+          const nameAndDetail = await provider.getProviderItemName(preset.meta)
+
+          items.push({
+            ...nameAndDetail,
+            types: ['provider', ...provider.providesTypesOfItems],
+            meta: {
+              ...preset.meta,
+              providerId: provider.id,
+            },
+          })
+        }
+
         return items
       }),
     )
