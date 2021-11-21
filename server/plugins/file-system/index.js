@@ -4,6 +4,7 @@ import os from 'os'
 import childProcess from 'child_process'
 import { fileIconToBuffer } from 'file-icon'
 import expandTilde from 'expand-tilde'
+import mime from 'mime-types'
 
 import getFileMetadata from './getFileMetadata.js'
 
@@ -45,7 +46,11 @@ const folderItemsProvider = {
     const folderItems = await Promise.all(
       folderContents.map(async (fileName) => {
         const filePath = `${path}/${fileName}`
-        const fileExtension = extname(filePath).slice(1)
+        const fileExtension = extname(filePath).slice(1).toLowerCase()
+        const type = mime.lookup(filePath)
+        let charset = mime.charset(type)
+        charset = typeof charset === 'string' ? charset.toLowerCase() : null
+
         let types = []
 
         try {
@@ -57,7 +62,7 @@ const folderItemsProvider = {
         return {
           name: fileName,
           detail: filePath.replace(os.homedir(), '~'),
-          types: [...types, fileExtension.toLowerCase()],
+          types: [...types, charset, fileExtension].filter(Boolean),
           meta: {
             path: filePath,
           },

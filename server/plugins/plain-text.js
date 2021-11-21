@@ -3,9 +3,9 @@ import childProcess from 'child_process'
 
 const plainTextProvider = {
   id: 'plainTextProvider',
-  providesItemsForTypes: ['public.plain-text'],
+  providesItemsForTypes: ['public.plain-text', 'utf-8'],
   async run({ path }) {
-    const file = await readFile(path, { encoding: 'utf8' })
+    const file = await readFile(path, { encoding: 'utf-8' })
     const lines = file.split('\n')
 
     const lineItems = []

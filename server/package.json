@@ -17,6 +17,7 @@
     "fastify-cors": "^6.0.2",
     "fastify-http-errors-enhanced": "^3.0.2",
     "file-icon": "^5.0.0",
+    "mime-types": "^2.1.34",
     "object-hash": "^2.2.0",
     "sift": "^15.0.0"
   },
