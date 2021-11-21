@@ -200,7 +200,9 @@ const App = ({
 
           setParentIds((ids) => {
             const selectedIds = [...ids]
-            selectedIds[parentIndex] = parentItem.parentId || null
+            // TODO this assumes (correctly) that actions will never have children
+            selectedIds[parentIndex] =
+              itemParentId === itemCatalogId ? null : itemParentId
             return selectedIds
           })
           break
