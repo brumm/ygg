@@ -49,6 +49,16 @@ app.on('will-quit', () => {
 
   // window.on('blur', () => app.hide())
 
+  window.on('show', () => {
+    globalShortcut.register('Esc', () => {
+      window.hide()
+    })
+  })
+
+  window.on('hide', () => {
+    globalShortcut.unregister('Esc')
+  })
+
   window.loadURL('http://localhost:3000')
 })()
 
