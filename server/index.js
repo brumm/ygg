@@ -16,7 +16,7 @@ import {
   runProvider,
 } from './lib.js'
 
-import * as fileSystemPlugin from './plugins/file-system.js'
+import * as fileSystemPlugin from './plugins/file-system'
 import * as corePlugin from './plugins/core.js'
 import * as plainTextPlugin from './plugins/plain-text.js'
 

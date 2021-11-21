@@ -1,11 +1,13 @@
 import { readdir } from 'fs/promises'
-import { extname } from 'path'
+import { basename, extname } from 'path'
 import os from 'os'
 import childProcess from 'child_process'
 import { fileIconToBuffer } from 'file-icon'
 
-import getFileMetadata from '../getFileMetadata.js'
-import { watch } from 'fs'
+import getFileMetadata from './getFileMetadata.js'
+
+// TODO
+// import { watch } from 'fs'
 
 const folderItemsProvider = {
   id: 'folderProvider',
@@ -14,6 +16,13 @@ const folderItemsProvider = {
 
   async getIcon({ path }) {
     return fileIconToBuffer(path, { size: 128 })
+  },
+
+  async getProviderItemName({ path }) {
+    return {
+      name: basename(path),
+      detail: path.replace(os.homedir(), '~'),
+    }
   },
 
   // TODO
@@ -33,24 +42,19 @@ const folderItemsProvider = {
     const folderItems = await Promise.all(
       folderContents.map(async (fileName) => {
         const filePath = `${path}/${fileName}`
-        const fileExtention = extname(filePath).slice(1)
+        const fileExtension = extname(filePath).slice(1)
         let types = []
 
         try {
           types = await getFileMetadata(filePath)
         } catch (error) {
-          console.error('failed to get metadata for', {
-            error,
-            path,
-            filePath,
-            fileExtention,
-          })
+          // console.error('failed to get metadata for', { error, path, filePath, fileExtension, })
         }
 
         return {
           name: fileName,
           detail: filePath.replace(os.homedir(), '~'),
-          types: [...types, fileExtention.toLowerCase()],
+          types: [...types, fileExtension.toLowerCase()],
           meta: {
             path: filePath,
           },
