@@ -9,6 +9,18 @@ import {
 
 import { makeId } from './utils.js'
 
+console.clear()
+
+const itemCatalogItem = {
+  id: 'item-catalog',
+  types: ['item-catalog'],
+}
+
+const actionCatalogItem = {
+  id: 'action-catalog',
+  types: ['action-catalog'],
+}
+
 test('it works with a specific parent item', async (t) => {
   const parentItem = {
     id: makeId(),
@@ -39,11 +51,11 @@ test('it works with a specific parent item', async (t) => {
 })
 
 test('can provide children if item has matching provider', async (t) => {
-  const [item] = await getChildrenForItem(null, {
+  const [item] = await getChildrenForItem(itemCatalogItem, {
     providers: [
       {
         id: makeId(),
-        providesItemsForTypes: ['catalog'],
+        providesItemsForTypes: ['item-catalog'],
         async run() {
           return [{ id: makeId(), types: ['public.folder'] }]
         },
@@ -62,11 +74,11 @@ test('can provide children if item has matching provider', async (t) => {
 })
 
 test('no children if item theres no matching provider', async (t) => {
-  const [item] = await getChildrenForItem(null, {
+  const [item] = await getChildrenForItem(itemCatalogItem, {
     providers: [
       {
         id: makeId(),
-        providesItemsForTypes: ['catalog'],
+        providesItemsForTypes: ['item-catalog'],
         async run() {
           return [{ id: makeId(), types: ['public.folder'] }]
         },
@@ -78,11 +90,11 @@ test('no children if item theres no matching provider', async (t) => {
 })
 
 test('it works without parentItem when having a catalog provider', async (t) => {
-  const [item] = await getChildrenForItem(null, {
+  const [item] = await getChildrenForItem(itemCatalogItem, {
     providers: [
       {
         id: makeId(),
-        providesItemsForTypes: ['catalog'],
+        providesItemsForTypes: ['item-catalog'],
         async run() {
           return [{ id: makeId(), types: ['public.folder'] }]
         },
@@ -94,7 +106,7 @@ test('it works without parentItem when having a catalog provider', async (t) => 
 })
 
 test('it returns empty array when not having a catalog parentItem or provider', async (t) => {
-  const [item] = await getChildrenForItem(null, {
+  const [item] = await getChildrenForItem(itemCatalogItem, {
     providers: [],
   })
 
@@ -103,12 +115,23 @@ test('it returns empty array when not having a catalog parentItem or provider', 
 
 test('match action to item', async (t) => {
   const item = { id: makeId(), types: ['public.folder'] }
+  const foo = [
+    { id: makeId(), types: ['action'], directTypes: ['public.folder'] },
+    { id: makeId(), types: ['action'], directTypes: ['something.else'] },
+    { id: makeId(), types: ['action'], directTypes: ['public.folder'] },
+  ]
+
   const actions = await getActionsForItem(item, {
-    actions: [
-      { id: makeId(), types: ['action'], directTypes: ['public.folder'] },
-      { id: makeId(), types: ['action'], directTypes: ['something.else'] },
-      { id: makeId(), types: ['action'], directTypes: ['public.folder'] },
+    providers: [
+      {
+        id: makeId(),
+        providesItemsForTypes: ['action-catalog'],
+        async run() {
+          return foo
+        },
+      },
     ],
+    actions: foo,
   })
 
   const [action] = actions
@@ -169,11 +192,11 @@ test('get indirect item matching catalog and action', async (t) => {
     indirectTypes: ['com.apple.application'],
   }
 
-  const [item] = await getIndirectsForAction(null, action, {
+  const [item] = await getIndirectsForAction(itemCatalogItem, action, {
     providers: [
       {
         id: makeId(),
-        providesItemsForTypes: ['catalog'],
+        providesItemsForTypes: ['item-catalog'],
         async run() {
           return [
             { id: makeId(), types: ['public.folder'] },
@@ -186,4 +209,25 @@ test('get indirect item matching catalog and action', async (t) => {
 
   t.not(item, undefined)
   t.is(item.types[0], 'com.apple.application')
+})
+
+test('can us', async (t) => {
+  const [item] = await getChildrenForItem(actionCatalogItem, {
+    providers: [
+      {
+        id: makeId(),
+        providesItemsForTypes: ['action-catalog'],
+        async run() {
+          return [
+            {
+              id: makeId(),
+              types: ['action'],
+            },
+          ]
+        },
+      },
+    ],
+  })
+
+  t.not(item, undefined)
 })

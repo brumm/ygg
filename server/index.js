@@ -2,7 +2,6 @@ console.clear()
 
 import createFastify from 'fastify'
 import cors from 'fastify-cors'
-import sift from 'sift'
 import fastifyHttpErrorsEnhanced from 'fastify-http-errors-enhanced'
 
 import {
@@ -12,6 +11,7 @@ import {
   getIndirectsForAction,
   getIconForItem,
   getIconForAction,
+  getActionById,
 } from './lib.js'
 
 import * as fileSystemPlugin from './plugins/file-system.js'
@@ -56,11 +56,6 @@ for (const plugin of plugins) {
 context.providers = providers
 context.actions = actions
 
-// todo move to lib if actions are just items
-const getActionById = (id) => {
-  return actions.find(sift({ id }))
-}
-
 // --- item
 
 fastify.get('/items/:itemId', async (request, reply) => {
@@ -68,10 +63,6 @@ fastify.get('/items/:itemId', async (request, reply) => {
 })
 
 // --- direct
-
-fastify.get('/items/default/children', async (request, reply) => {
-  return getChildrenForItem(null, context)
-})
 
 fastify.get('/items/:itemId/children', async (request, reply) => {
   const item = getItemById(request.params.itemId)

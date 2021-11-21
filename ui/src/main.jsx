@@ -35,7 +35,10 @@ const api = async (fragment, config) => {
   return json
 }
 
-const App = () => {
+const App = ({
+  itemCatalogId = 'item-catalog',
+  actionCatalogId = 'action-catalog',
+}) => {
   const [parentIndex, setParentIndex] = React.useState(0)
   const [filterTexts, setFilterTexts] = React.useState(['', '', ''])
   const [parentIds, setParentIds] = React.useState([null, null, null])
@@ -52,7 +55,7 @@ const App = () => {
     {
       queryKey: ['direct children', { directParentId }],
       queryFn: async () =>
-        api(`/items/${directParentId ?? 'default'}/children`),
+        api(`/items/${directParentId ?? itemCatalogId}/children`),
       keepPreviousData: true,
     },
     {
@@ -65,12 +68,12 @@ const App = () => {
       queryKey: ['indirect children', { indirectParentId, actionChildId }],
       queryFn: async () => {
         if (indirectParentId !== null) {
-          return api(`/items/${indirectParentId ?? 'default'}/children`)
+          return api(`/items/${indirectParentId ?? itemCatalogId}/children`)
         }
 
         return api(
           `/items/${
-            indirectChildId ?? 'default'
+            indirectChildId ?? itemCatalogId
           }/actions/${actionChildId}/indirects`,
         )
       },
@@ -191,7 +194,9 @@ const App = () => {
             return
           }
 
-          const parentItem = await api(`/items/${parentId || 'default'}`)
+          const { parentId: itemParentId } = await api(
+            `/items/${parentId || itemCatalogId}`,
+          )
 
           setParentIds((ids) => {
             const selectedIds = [...ids]
@@ -267,7 +272,7 @@ const App = () => {
             event.preventDefault()
             setParentIds((ids) => {
               const selectedIds = [...ids]
-              selectedIds[parentIndex] = 'default'
+              selectedIds[parentIndex] = itemCatalogId
               return selectedIds
             })
             setFilterTexts((texts) => {
@@ -289,6 +294,7 @@ const App = () => {
     directChildId,
     filteredListItems,
     indirectChildId,
+    itemCatalogId,
     itemsQueries,
     parentIds,
     parentIndex,
