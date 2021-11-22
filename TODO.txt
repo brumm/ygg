@@ -15,6 +15,7 @@ handle copy/paste
 after popup, typing should overwrite existing filter
 text input mode
   detect text type, match to actions (like urls)
+after having just been shown, the app should overwrite the active filterstring once, instead of appending to it
 
 [x] toString(item) to make stable ids
 [x] hash thing internally
