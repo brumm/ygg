@@ -5,3 +5,7 @@
 * {
   @apply cursor-default select-none;
 }
+
+.rtl {
+  direction: rtl;
+}
