@@ -47,37 +47,35 @@ const folderItemsProvider = {
     //   context.clearKey(itemId)
     // })
 
-    path = expandTilde(path)
+    const expandedPath = expandTilde(path)
+    const folderContents = await readdir(expandedPath)
 
-    const folderContents = await readdir(path)
-    const folderItems = await Promise.all(
-      folderContents.map(async (fileName) => {
-        const filePath = `${path}/${fileName}`
-        const fileExtension = extname(filePath).slice(1).toLowerCase()
-        const type = mime.lookup(filePath)
-        let charset = mime.charset(type)
-        charset = typeof charset === 'string' ? charset.toLowerCase() : null
+    const folderItems = folderContents.map(async (fileName) => {
+      const filePath = `${expandedPath}/${fileName}`
+      const fileExtension = extname(filePath).slice(1).toLowerCase()
+      const type = mime.lookup(filePath)
+      let charset = mime.charset(type)
+      charset = typeof charset === 'string' ? charset.toLowerCase() : null
 
-        let types = []
+      let types = []
 
-        try {
-          types = await getFileMetadata(filePath)
-        } catch (error) {
-          // console.error('failed to get metadata for', { error, path, filePath, fileExtension, })
-        }
+      try {
+        types = await getFileMetadata(filePath)
+      } catch (error) {
+        // console.error('failed to get metadata for', { error, expandedPath, filePath, fileExtension, })
+      }
 
-        return {
-          name: fileName,
-          detail: filePath.replace(os.homedir(), '~'),
-          types: [...types, charset, fileExtension].filter(Boolean),
-          meta: {
-            path: filePath,
-          },
-        }
-      }),
-    )
+      return {
+        name: fileName,
+        detail: filePath.replace(os.homedir(), '~'),
+        types: [...types, charset, fileExtension].filter(Boolean),
+        meta: {
+          path: filePath,
+        },
+      }
+    })
 
-    return folderItems
+    return Promise.all(folderItems)
   },
 }
 
