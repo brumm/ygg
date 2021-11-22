@@ -12,6 +12,7 @@ const presets = [
     itemProviderId: 'folderProvider',
     meta: { path: '~' },
     filter: isNotHidden,
+    includeProviderItem: true,
   },
   {
     itemProviderId: 'folderProvider',
@@ -37,7 +38,6 @@ const presets = [
     itemProviderId: 'folderProvider',
     meta: { path: '~/Applications' },
     filter: { ...isNotHidden, ...isApplication },
-    // includeProviderItem: true,
   },
   // {
   //   itemProviderId: 'githubProvider',
@@ -66,14 +66,14 @@ const itemCatalogProvider = (context) => ({
         let items = await provider.run(preset.meta)
         items = items.filter(sift(preset.filter))
 
-        if (preset.includeProviderItem && provider.getProviderItemName) {
-          const nameAndDetail = await provider.getProviderItemName(preset.meta)
+        if (preset.includeProviderItem && provider.makeProviderItem) {
+          const item = await provider.makeProviderItem(preset.meta)
 
           items.push({
-            ...nameAndDetail,
-            types: ['provider', ...provider.providesTypesOfItems],
+            ...item,
+            types: [...item.types, 'provider'],
             meta: {
-              ...preset.meta,
+              ...item.meta,
               providerId: provider.id,
             },
           })

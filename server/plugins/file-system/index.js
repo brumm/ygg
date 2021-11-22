@@ -20,10 +20,17 @@ const folderItemsProvider = {
     return fileIconToBuffer(path, { size: 128 })
   },
 
-  async getProviderItemName({ path }) {
+  async makeProviderItem({ path }) {
+    const expandedPath = expandTilde(path)
+
     return {
-      name: basename(path),
-      detail: path.replace(os.homedir(), '~'),
+      name: basename(expandedPath),
+      detail: expandedPath.replace(os.homedir(), '~'),
+      // TODO this should probably be a class instance so we can self-reference
+      types: ['public.folder', 'public.item'],
+      meta: {
+        path: expandedPath,
+      },
     }
   },
 
