@@ -352,7 +352,7 @@ const App = ({
                 )}
               >
                 {filterTexts[itemIndex] && (
-                  <div className="absolute px-2 py-1 text-xs bg-black bg-opacity-50 rounded top-2 left-2">
+                  <div className="absolute px-2 py-1 text-xs bg-black bg-opacity-50 rounded max-w-[8.5rem] truncate top-2 left-2">
                     {filterTexts[itemIndex]}
                   </div>
                 )}
