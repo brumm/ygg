@@ -53,6 +53,8 @@ app.on('will-quit', () => {
     globalShortcut.register('Esc', () => {
       window.hide()
     })
+
+    window.webContents.send('show')
   })
 
   window.on('hide', () => {

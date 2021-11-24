@@ -41,6 +41,7 @@ const App = ({
   itemCatalogId = 'item-catalog',
   actionCatalogId = 'action-catalog',
 }) => {
+  const [didJustShow, setDidJustShow] = useImmer(false)
   const [parentIndex, setParentIndex] = useImmer(0)
   const [filterTexts, setFilterTexts] = useImmer(['', '', ''])
   const [parentIds, setParentIds] = useImmer([null, null, null])
@@ -297,9 +298,16 @@ const App = ({
             setParentIds((draft) => {
               draft[parentIndex] = itemCatalogId
             })
-            setFilterTexts((draft) => {
-              draft[parentIndex] += event.key.toLowerCase()
-            })
+            if (didJustShow) {
+              setFilterTexts((draft) => {
+                draft[parentIndex] = event.key.toLowerCase()
+              })
+              setDidJustShow(false)
+            } else {
+              setFilterTexts((draft) => {
+                draft[parentIndex] += event.key.toLowerCase()
+              })
+            }
           }
         }
 
