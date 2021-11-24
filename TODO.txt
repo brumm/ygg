@@ -1,26 +1,22 @@
 TODO
 
 tackle hiddenItem filter and generic filters
-[x] tackle hidden/visible "source items"
-attempt to select previous item after navigate to parent
-finish copy to clipboard action
+attempt to select previous item after navigating to parent
 implement github plugin
 make core settings configurable
-[x] attempt to make action like items
-[x] center window during resize
-streamline preload/command dance by iterating over exports
-virtualize item rendering and keep active item in view
 attempt to move useEffects into custom hook
 handle copy/paste
-after popup, typing should overwrite existing filter
 text input mode
   detect text type, match to actions (like urls)
-after having just been shown, the app should overwrite the active filterstring once, instead of appending to it
 
+[x] after popup, typing should overwrite existing filter
+[x] virtualize item rendering and keep active item in view
+[x] tackle hidden/visible "source items"
+[x] finish copy to clipboard action
+[x] attempt to make action like items
+[x] center window during resize
 [x] toString(item) to make stable ids
 [x] hash thing internally
-
-+++ USE IT +++
 [x] change quicksilver shortcut
 [x] make ygg default
 
