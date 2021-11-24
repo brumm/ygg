@@ -19,6 +19,7 @@
     "react-dom": "^17.0.0",
     "react-query": "^3.29.0",
     "react-router-dom": "^5.3.0",
+    "react-virtual": "^2.8.2",
     "use-immer": "^0.6.0"
   },
   "devDependencies": {

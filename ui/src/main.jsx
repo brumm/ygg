@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider, useQueries } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { matchSorter } from 'match-sorter'
 import { useImmer } from 'use-immer'
+import { useVirtual } from 'react-virtual'
 
 import './index.css'
 import clsx from 'clsx'
@@ -88,6 +89,20 @@ const App = ({
       keys: ['name', 'details'],
     }),
   )
+
+  const parentRef = React.useRef()
+
+  const rowVirtualizer = useVirtual({
+    size: filteredListItems[parentIndex].length,
+    parentRef,
+    estimateSize: React.useCallback(() => 64, []),
+  })
+
+  React.useEffect(() => {
+    return window.app?.onShow(() => {
+      setDidJustShow(true)
+    })
+  }, [setDidJustShow])
 
   // --- clear a lists filter text when its parent changes
 
@@ -325,6 +340,14 @@ const App = ({
     })
   }, [filteredListItems, parentIndex])
 
+  React.useEffect(() => {
+    const currentIndex = filteredListItems[parentIndex].findIndex(
+      (item) => item.id === selectedChildId,
+    )
+
+    rowVirtualizer.scrollToIndex(currentIndex)
+  }, [filteredListItems, parentIndex, rowVirtualizer, selectedChildId])
+
   return (
     <Fragment>
       <div className="flex flex-col w-screen h-screen text-gray-400 bg-gray-800">
@@ -388,77 +411,97 @@ const App = ({
 
         <hr className="border-gray-900" />
 
-        <div className="flex-1 overflow-y-auto">
-          {filteredListItems[parentIndex]?.map((item) => {
-            const isSelected = item.id === selectedChildId
-            return (
-              <div
-                ref={(element) =>
-                  element && isSelected && element.scrollIntoViewIfNeeded()
-                }
-                key={item.id}
-                onClick={() =>
-                  setChildIds((draft) => {
-                    draft[parentIndex] = item.id
-                  })
-                }
-                className={clsx(
-                  'flex h-16 items-center justify-between px-4 overflow-hidden gap-4',
-                  {
-                    'bg-gray-700': isSelected,
-                  },
-                )}
-              >
-                {parentIndex === 1 && item
-                  ? item && (
-                      <img
-                        loading="lazy"
-                        className="w-10 h-10 rounded"
-                        src={`http://localhost:8080/actions/${item?.id}/icon`}
-                        alt=""
-                      />
-                    )
-                  : item && (
-                      <img
-                        loading="lazy"
-                        className="w-10 h-10 rounded"
-                        src={`http://localhost:8080/items/${item?.id}/icon`}
-                        alt=""
-                      />
+        <div
+          ref={parentRef}
+          className="w-full h-full"
+          style={{
+            overflow: 'auto',
+          }}
+        >
+          <div
+            className="relative w-full"
+            style={{
+              height: `${rowVirtualizer.totalSize}px`,
+            }}
+          >
+            {rowVirtualizer.virtualItems.map((virtualRow) => {
+              const item = filteredListItems[parentIndex][virtualRow.index]
+              const isSelected = item.id === selectedChildId
+
+              return (
+                <div
+                  key={virtualRow.index}
+                  className="absolute top-0 left-0 w-full"
+                  style={{
+                    height: `${virtualRow.size}px`,
+                    transform: `translateY(${virtualRow.start}px)`,
+                  }}
+                  onClick={() =>
+                    setChildIds((draft) => {
+                      draft[parentIndex] = item.id
+                    })
+                  }
+                >
+                  <div
+                    className={clsx(
+                      'flex h-16 items-center justify-between px-4 overflow-hidden gap-4',
+                      {
+                        'bg-gray-700': isSelected,
+                      },
                     )}
+                  >
+                    {parentIndex === 1 && item
+                      ? item && (
+                          <img
+                            loading="lazy"
+                            className="w-10 h-10 rounded"
+                            src={`http://localhost:8080/actions/${item?.id}/icon`}
+                            alt=""
+                          />
+                        )
+                      : item && (
+                          <img
+                            loading="lazy"
+                            className="w-10 h-10 rounded"
+                            src={`http://localhost:8080/items/${item?.id}/icon`}
+                            alt=""
+                          />
+                        )}
 
-                <div className="flex-auto truncate">
-                  <div className="truncate">
-                    {item.name}
-                    {item.indirectTypes?.length && '...'}
-                  </div>
+                    <div className="flex-auto truncate">
+                      <div className="truncate">
+                        {item.name}
+                        {item.indirectTypes?.length && '...'}
+                      </div>
 
-                  <div className="truncate">
-                    <span className="block text-sm text-gray-500 truncate">
-                      {item.detail}
-                    </span>
+                      <div className="truncate">
+                        <span className="block text-sm text-gray-500 truncate">
+                          {item.detail}
+                        </span>
+                      </div>
+                    </div>
+
+                    {item.hasChildren && (
+                      <div className="flex-shrink-0 text-gray-500">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-6 h-6"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    )}
                   </div>
                 </div>
-
-                {item.hasChildren && (
-                  <div className="flex-shrink-0 text-gray-500">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="w-6 h-6"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                )}
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
         </div>
       </div>
     </Fragment>
