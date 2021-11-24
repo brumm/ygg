@@ -1,5 +1,5 @@
 import { readFile } from 'fs/promises'
-import childProcess from 'child_process'
+import clipboard from 'clipboardy'
 
 const plainTextProvider = {
   id: 'plainTextProvider',
@@ -36,7 +36,8 @@ const copyToClipboardAction = {
   directTypes: ['text/plain'],
   name: 'Copy to Clipboard',
   run: (direct) => {
-    console.log(direct)
+    // TODO items should probably be stringifyable
+    clipboard.writeSync(direct.name)
   },
 }
 
