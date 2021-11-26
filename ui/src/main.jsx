@@ -392,7 +392,6 @@ const App = ({
                 {itemIndex === 1 && item
                   ? item && (
                       <img
-                        loading="lazy"
                         className="w-24 h-24 rounded"
                         src={`http://localhost:8080/actions/${item?.id}/icon`}
                         alt=""
@@ -400,7 +399,6 @@ const App = ({
                     )
                   : item && (
                       <img
-                        loading="lazy"
                         className="w-24 h-24 rounded"
                         src={`http://localhost:8080/items/${item?.id}/icon`}
                         alt=""
@@ -462,7 +460,6 @@ const App = ({
                     {parentIndex === 1 && item
                       ? item && (
                           <img
-                            loading="lazy"
                             className="w-10 h-10 rounded"
                             src={`http://localhost:8080/actions/${item?.id}/icon`}
                             alt=""
@@ -470,7 +467,6 @@ const App = ({
                         )
                       : item && (
                           <img
-                            loading="lazy"
                             className="w-10 h-10 rounded"
                             src={`http://localhost:8080/items/${item?.id}/icon`}
                             alt=""
