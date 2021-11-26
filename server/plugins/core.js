@@ -95,14 +95,4 @@ const actionCatalogProvider = (context) => ({
   },
 })
 
-const logItemAction = {
-  types: ['action'],
-  directTypes: ['public.item'],
-  name: 'Log to Console',
-  run: (direct) => {
-    console.log(direct)
-  },
-}
-
 export const providers = [itemCatalogProvider, actionCatalogProvider]
-export const actions = [logItemAction]
