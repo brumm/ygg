@@ -102,6 +102,7 @@ const App = ({
   React.useEffect(() => {
     return window.app?.onShow(() => {
       setDidJustShow(true)
+      setParentIndex(0)
     })
   }, [setDidJustShow])
 
