@@ -14,6 +14,6 @@ export const isNotAction = { types: { $not: { $in: ['action'] } } }
 
 export const isAction = { types: { $in: ['action'] } }
 
-export const providesItemsForTypes = (types) => ({
-  providesItemsForTypes: { $in: types },
+export const inputTypes = (types) => ({
+  inputTypes: { $in: types },
 })

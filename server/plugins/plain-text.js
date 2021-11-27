@@ -3,7 +3,7 @@ import clipboard from 'clipboardy'
 
 const plainTextProvider = {
   id: 'plainTextProvider',
-  providesItemsForTypes: ['public.plain-text', 'utf-8'],
+  inputTypes: ['public.plain-text', 'utf-8'],
   async run({ path }) {
     const file = await readFile(path, { encoding: 'utf-8' })
     const lines = file.split('\n')

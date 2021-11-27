@@ -24,7 +24,7 @@ test('it works with a specific parent item', async (t) => {
     providers: [
       {
         id: makeRandomId(),
-        providesItemsForTypes: ['public.folder'],
+        inputTypes: ['public.folder'],
         async run({ path }) {
           return [
             {
@@ -48,14 +48,14 @@ test('can provide children if item has matching provider', async (t) => {
     providers: [
       {
         id: makeRandomId(),
-        providesItemsForTypes: itemCatalogItem.types,
+        inputTypes: itemCatalogItem.types,
         async run() {
           return [{ id: makeRandomId(), types: ['public.folder'] }]
         },
       },
       {
         id: makeRandomId(),
-        providesItemsForTypes: ['public.folder'],
+        inputTypes: ['public.folder'],
         async run() {
           return [{ id: makeRandomId(), types: ['public.folder'] }]
         },
@@ -72,7 +72,7 @@ test('no children if item theres no matching provider', async (t) => {
     providers: [
       {
         id: makeRandomId(),
-        providesItemsForTypes: itemCatalogItem.types,
+        inputTypes: itemCatalogItem.types,
         async run() {
           return [{ id: makeRandomId(), types: ['public.folder'] }]
         },
@@ -89,7 +89,7 @@ test('it works without parentItem when having a catalog provider', async (t) => 
     providers: [
       {
         id: makeRandomId(),
-        providesItemsForTypes: itemCatalogItem.types,
+        inputTypes: itemCatalogItem.types,
         async run() {
           return [{ id: makeRandomId(), types: ['public.folder'] }]
         },
@@ -122,7 +122,7 @@ test('match action to item', async (t) => {
     providers: [
       {
         id: makeRandomId(),
-        providesItemsForTypes: actionCatalogItem.types,
+        inputTypes: actionCatalogItem.types,
         async run() {
           return foo
         },
@@ -158,7 +158,7 @@ test('get indirect item matching parent and action', async (t) => {
     providers: [
       {
         id: makeRandomId(),
-        providesItemsForTypes: ['public.folder'],
+        inputTypes: ['public.folder'],
         async run({ path }) {
           return [
             {
@@ -195,7 +195,7 @@ test('get indirect item matching catalog and action', async (t) => {
     providers: [
       {
         id: makeRandomId(),
-        providesItemsForTypes: itemCatalogItem.types,
+        inputTypes: itemCatalogItem.types,
         async run() {
           return [
             { id: makeRandomId(), types: ['public.folder'] },
@@ -218,7 +218,7 @@ test('can use action catalog items', async (t) => {
     providers: [
       {
         id: makeRandomId(),
-        providesItemsForTypes: actionCatalogItem.types,
+        inputTypes: actionCatalogItem.types,
         async run() {
           return [
             {

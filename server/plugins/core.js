@@ -47,7 +47,7 @@ const presets = [
 
 const itemCatalogProvider = (context) => ({
   id: 'itemCatalogProvider',
-  providesItemsForTypes: ['item-catalog'],
+  inputTypes: ['item-catalog'],
   async run() {
     const catalogItems = await Promise.all(
       presets.map(async (preset) => {
@@ -89,7 +89,7 @@ const itemCatalogProvider = (context) => ({
 
 const actionCatalogProvider = (context) => ({
   id: 'actionCatalogProvider',
-  providesItemsForTypes: ['action-catalog'],
+  inputTypes: ['action-catalog'],
   async run() {
     return context.actions
   },

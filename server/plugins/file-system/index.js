@@ -13,7 +13,7 @@ import getFileMetadata from './getFileMetadata.js'
 
 const folderItemsProvider = {
   id: 'folderProvider',
-  providesItemsForTypes: ['public.folder', 'com.apple.application'],
+  inputTypes: ['public.folder', 'com.apple.application'],
   providesTypesOfItems: ['public.folder', 'public.item'],
 
   async getIcon({ path }) {

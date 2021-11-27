@@ -24,7 +24,7 @@ export const initialize = (context) => {
 
 export const getChildrenForItem = async (parentItem, context) => {
   const matchingProviders = context.providers.filter(
-    sift({ providesItemsForTypes: { $in: parentItem.types } }),
+    sift({ inputTypes: { $in: parentItem.types } }),
   )
 
   let children = []
@@ -37,7 +37,7 @@ export const getChildrenForItem = async (parentItem, context) => {
     item.id = item.id || itemToId(item)
     item.parentId = parentItem.id
     item.hasChildren = context.providers.some(
-      sift({ providesItemsForTypes: { $in: item.types } }),
+      sift({ inputTypes: { $in: item.types } }),
     )
   }
 
@@ -47,7 +47,7 @@ export const getChildrenForItem = async (parentItem, context) => {
 export const getActionsForItem = async (item, context) => {
   const matchingProviders = context.providers.filter(
     sift({
-      providesItemsForTypes: { $in: actionCatalogItem.types },
+      inputTypes: { $in: actionCatalogItem.types },
     }),
   )
 
@@ -61,7 +61,7 @@ export const getActionsForItem = async (item, context) => {
     item.id = item.id || itemToId(item)
     item.parentId = actionCatalogItem.id
     item.hasChildren = context.providers.some(
-      sift({ providesItemsForTypes: { $in: item.types } }),
+      sift({ inputTypes: { $in: item.types } }),
     )
   }
 
