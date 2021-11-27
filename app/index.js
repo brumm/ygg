@@ -49,7 +49,7 @@ app.on('will-quit', () => {
 
   window.on('hide', () => app.hide())
 
-  window.on('show', () => {
+  window.on('focus', () => {
     globalShortcut.register('Esc', () => {
       window.hide()
     })
@@ -57,7 +57,7 @@ app.on('will-quit', () => {
     window.webContents.send('show')
   })
 
-  window.on('hide', () => {
+  window.on('blur', () => {
     globalShortcut.unregister('Esc')
   })
 
