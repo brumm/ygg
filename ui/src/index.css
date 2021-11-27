@@ -2,10 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  @apply cursor-default select-none;
+body {
+  font-family: 'Inter', sans-serif;
 }
 
-.rtl {
-  direction: rtl;
+* {
+  @apply cursor-default select-none;
 }
