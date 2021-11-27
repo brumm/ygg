@@ -346,7 +346,7 @@ const App = ({
   React.useLayoutEffect(() => {
     window.app?.resize({
       height:
-        176 +
+        177 +
         Math.max(Math.min(5, filteredListItems[parentIndex]?.length), 1) * 64,
     })
   }, [filteredListItems, parentIndex])
