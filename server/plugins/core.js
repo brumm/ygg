@@ -64,7 +64,9 @@ const itemCatalogProvider = (context) => ({
         }
 
         let items = await provider.run(preset.meta)
-        items = items.filter(sift(preset.filter))
+        if (preset.filter) {
+          items = items.filter(sift(preset.filter))
+        }
 
         if (preset.includeProviderItem && provider.makeProviderItem) {
           const item = await provider.makeProviderItem(preset.meta)
