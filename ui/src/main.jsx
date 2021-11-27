@@ -104,7 +104,7 @@ const App = ({
       setDidJustShow(true)
       setParentIndex(0)
     })
-  }, [setDidJustShow])
+  }, [setDidJustShow, setParentIndex])
 
   // --- clear a lists filter text when its parent changes
 
@@ -333,6 +333,8 @@ const App = ({
     setParentIds,
     setParentIndex,
     shouldShowIndirect,
+    didJustShow,
+    setDidJustShow,
   ])
 
   React.useLayoutEffect(() => {
@@ -349,13 +351,12 @@ const App = ({
     })
   }, [filteredListItems, parentIndex])
 
+  const currentIndex = filteredListItems[parentIndex].findIndex(
+    (item) => item.id === selectedChildId,
+  )
   React.useEffect(() => {
-    const currentIndex = filteredListItems[parentIndex].findIndex(
-      (item) => item.id === selectedChildId,
-    )
-
     rowVirtualizer.scrollToIndex(currentIndex)
-  }, [filteredListItems, parentIndex, rowVirtualizer, selectedChildId])
+  }, [currentIndex])
 
   return (
     <Fragment>
