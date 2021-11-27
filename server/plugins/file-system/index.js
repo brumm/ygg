@@ -14,7 +14,7 @@ import getFileMetadata from './getFileMetadata.js'
 const folderItemsProvider = {
   id: 'folderProvider',
   inputTypes: ['public.folder', 'com.apple.application'],
-  providesTypesOfItems: ['public.folder', 'public.item'],
+  outputTypes: ['public.folder', 'public.item'],
 
   async getIcon({ path }) {
     return fileIconToBuffer(path, { size: 128 })

@@ -115,7 +115,7 @@ export const getIconForItem = async (item, context) => {
   }
 
   const provider = context.providers.find(
-    sift({ providesTypesOfItems: { $in: item.types } }),
+    sift({ outputTypes: { $in: item.types } }),
   )
 
   if (!provider) {
