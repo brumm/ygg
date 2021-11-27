@@ -13,6 +13,7 @@ app.on('will-quit', () => {
 //
 ;(async () => {
   await app.whenReady()
+  app.dock.hide() // also hides from app switcher
 
   globalShortcut.register('Cmd+Space', () => {
     if (window.isVisible()) {
