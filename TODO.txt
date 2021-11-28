@@ -8,6 +8,11 @@ attempt to move useEffects into custom hook
 handle copy/paste
 text input mode
   detect text type, match to actions (like urls)
+plugins can contribute additional types to items
+  inputType 'com.apple.application' => 'running-process'
+  contribute Quit action
+proxies
+notify ui of changed cache so it refetches
 
 [x] after popup, typing should overwrite existing filter
 [x] virtualize item rendering and keep active item in view
