@@ -190,7 +190,7 @@ const App = ({
 
   React.useLayoutEffect(() => {
     const handler = async (event) => {
-      switch (event.key) {
+      switch (event.code) {
         case 'Tab': {
           event.preventDefault()
           setParentIndex((index) => {
@@ -201,6 +201,7 @@ const App = ({
           break
         }
 
+        case 'Space':
         case 'ArrowRight': {
           event.preventDefault()
           // console.log(event.altKey)
