@@ -1,6 +1,12 @@
+import { readFile } from 'fs/promises'
+import { join } from 'path'
 import sift from 'sift'
 
 import { isNotHidden, isApplication } from '../filters.js'
+
+const actionIconBuffer = await readFile(
+  join(import.meta.url.replace('file:', ''), '../../images/action.png'),
+)
 
 const presets = [
   {
@@ -92,6 +98,10 @@ const itemCatalogProvider = (context) => ({
 const actionCatalogProvider = (context) => ({
   id: 'actionCatalogProvider',
   inputTypes: ['action-catalog'],
+  outputTypes: ['action'],
+  async getIcon() {
+    return actionIconBuffer
+  },
   async run() {
     return context.actions
   },
