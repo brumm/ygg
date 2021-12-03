@@ -156,9 +156,6 @@ class Ygg {
     const directItem = this.getItemById(directItemId)
     const actionItem = this.getItemById(actionItemId)
     const indirectItem = this.getItemById(indirectItemId)
-
-    console.log({ directItem, actionItem, indirectItem })
-
     return actionItem.run(directItem, indirectItem)
   }
 
