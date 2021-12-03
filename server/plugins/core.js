@@ -45,10 +45,6 @@ const presets = [
     meta: { path: '~/Applications' },
     filter: { ...isNotHidden, ...isApplication },
   },
-  // {
-  //   itemProviderId: 'githubProvider',
-  //   meta: { repo: 'brumm/ygg' },
-  // },
 ]
 
 const itemCatalogProvider = (context) => ({
