@@ -22,8 +22,6 @@ const plugins = [fileSystemPlugin, corePlugin, plainTextPlugin]
 const ygg = new Ygg({ plugins })
 global.ygg = ygg
 
-await ygg.initialize()
-
 // --- item
 
 fastify.get('/items/:itemId', async (request, reply) => {
@@ -93,6 +91,7 @@ process.on('uncaughtException', (error) => {
 
 try {
   await fastify.listen(8080)
+  // await ygg.initialize()
 } catch (error) {
   fastify.log.error(error)
   console.error(error)
