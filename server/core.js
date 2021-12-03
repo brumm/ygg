@@ -52,20 +52,20 @@ class Ygg {
         }
       }
     }
+
+    this.cache.core = [itemCatalogItem, actionCatalogItem]
   }
 
   async initialize() {
-    this.cache.core = [itemCatalogItem, actionCatalogItem]
-
     try {
-      console.time('prime cache')
+      console.time('priming cache')
       for (const item of this.cache.core) {
         await this.getChildrenForItem(item.id)
       }
     } catch (error) {
       console.error('error initializing ygg', error)
     } finally {
-      console.timeEnd('prime cache')
+      console.timeEnd('priming cache')
     }
   }
 
