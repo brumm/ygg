@@ -23,16 +23,16 @@ export const fileMetadata = async (filePath) => {
 }
 
 const getFileMetadata = async (filePath) => {
-  const fileExtention = extname(filePath).slice(1)
+  const fileExtension = extname(filePath).slice(1)
 
-  if (fileExtention.length > 0) {
-    if (fileExtention in contentTypesByExtensionCache) {
-      return contentTypesByExtensionCache[fileExtention]
+  if (fileExtension.length > 0) {
+    if (fileExtension in contentTypesByExtensionCache) {
+      return contentTypesByExtensionCache[fileExtension]
     }
   }
 
   const contentTypes = await fileMetadata(filePath)
-  contentTypesByExtensionCache[fileExtention] = contentTypes
+  contentTypesByExtensionCache[fileExtension] = contentTypes
   return contentTypes
 }
 
