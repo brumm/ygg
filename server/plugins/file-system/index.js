@@ -1,12 +1,14 @@
 import { readdir } from 'fs/promises'
-import { basename, extname } from 'path'
+import { basename, extname, join } from 'path'
 import os from 'os'
 import childProcess from 'child_process'
 import { fileIconToBuffer } from 'file-icon'
 import expandTilde from 'expand-tilde'
 import mime from 'mime-types'
 
-import getFileMetadata from './getFileMetadata.js'
+import getFileMetadata, { fileUtisByExtension } from './getFileMetadata.js'
+
+const denyList = ['.Trash']
 
 // TODO
 // import { watch } from 'fs'
@@ -50,30 +52,33 @@ const folderItemsProvider = {
     const expandedPath = expandTilde(path)
     const folderContents = await readdir(expandedPath)
 
-    const folderItems = folderContents.map(async (fileName) => {
-      const filePath = `${expandedPath}/${fileName}`
-      const fileExtension = extname(filePath).slice(1).toLowerCase()
-      const type = mime.lookup(filePath)
-      let charset = mime.charset(type)
-      charset = typeof charset === 'string' ? charset.toLowerCase() : null
+    const utisByExtension = await fileUtisByExtension(
+      folderContents
+        .filter((fileName) => !denyList.includes(fileName))
+        .map((fileName) => join(expandedPath, fileName)),
+    )
 
-      let types = []
+    const folderItems = folderContents
+      .filter((fileName) => !denyList.includes(fileName))
+      .map(async (fileName) => {
+        const filePath = join(expandedPath, fileName)
+        const fileExtension =
+          extname(filePath).slice(1).toLowerCase() || '@@folder'
+        const type = mime.lookup(filePath)
+        let charset = mime.charset(type)
+        charset = typeof charset === 'string' ? charset.toLowerCase() : null
 
-      try {
-        types = await getFileMetadata(filePath)
-      } catch (error) {
-        // console.error('failed to get metadata for', { error, expandedPath, filePath, fileExtension, })
-      }
+        let types = utisByExtension[fileExtension]
 
-      return {
-        name: fileName,
-        detail: filePath.replace(os.homedir(), '~'),
-        types: [...types, charset, fileExtension].filter(Boolean),
-        meta: {
-          path: filePath,
-        },
-      }
-    })
+        return {
+          name: fileName,
+          detail: filePath.replace(os.homedir(), '~'),
+          types: [...types, charset, fileExtension].filter(Boolean),
+          meta: {
+            path: filePath,
+          },
+        }
+      })
 
     return Promise.all(folderItems)
   },
