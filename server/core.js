@@ -134,7 +134,7 @@ class Ygg {
       return []
     }
 
-    const items = await this.getChildrenForItem(item)
+    const items = await this.getChildrenForItem(item.id)
     return items.filter(sift({ types: { $in: actionItem.indirectTypes } }))
   }
 
