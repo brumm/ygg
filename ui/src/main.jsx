@@ -260,7 +260,7 @@ const App = ({
 
         case 'Enter': {
           event.preventDefault()
-          await api('/execute-command', {
+          api('/execute-command', {
             method: 'post',
             body: JSON.stringify({
               directId: directChildId,
