@@ -10,6 +10,8 @@ import * as fileSystemPlugin from './plugins/file-system'
 import * as corePlugin from './plugins/core.js'
 import * as plainTextPlugin from './plugins/plain-text.js'
 
+console.clear()
+
 const fastify = createFastify({
   disableRequestLogging: true,
 })
@@ -56,11 +58,9 @@ fastify.get(
 fastify.get(
   '/items/:itemId/actions/:actionId/indirects',
   async (request, reply) => {
-    return (
-      ygg.getIndirectsForAction(
-        request.params.itemId || null,
-        request.params.actionId,
-      ) ?? []
+    return ygg.getIndirectsForAction(
+      request.params.itemId,
+      request.params.actionId,
     )
   },
 )

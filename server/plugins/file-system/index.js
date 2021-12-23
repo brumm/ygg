@@ -6,7 +6,7 @@ import { fileIconToBuffer } from 'file-icon'
 import expandTilde from 'expand-tilde'
 import mime from 'mime-types'
 
-import getFileMetadata, { fileUtisByExtension } from './getFileMetadata.js'
+import fileUtisByExtension from './getFileMetadata.js'
 
 const denyList = ['.Trash']
 
@@ -62,13 +62,12 @@ const folderItemsProvider = {
       .filter((fileName) => !denyList.includes(fileName))
       .map(async (fileName) => {
         const filePath = join(expandedPath, fileName)
-        const fileExtension =
-          extname(filePath).slice(1).toLowerCase() || '@@folder'
+        const fileExtension = extname(filePath).slice(1).toLowerCase()
         const type = mime.lookup(filePath)
         let charset = mime.charset(type)
         charset = typeof charset === 'string' ? charset.toLowerCase() : null
 
-        let types = utisByExtension[fileExtension]
+        let types = utisByExtension[fileExtension || fileName]
 
         return {
           name: fileName,

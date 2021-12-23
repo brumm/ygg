@@ -13,6 +13,7 @@ plugins can contribute additional types to items
   contribute Quit action
 proxies
 notify ui of changed cache so it refetches
+append text to file
 
 [x] after popup, typing should overwrite existing filter
 [x] virtualize item rendering and keep active item in view

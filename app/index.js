@@ -26,7 +26,7 @@ app.on('will-quit', () => {
 
   window = new BrowserWindow({
     width: 352,
-    height: 496,
+    height: 176,
     alwaysOnTop: true,
     show: false,
     frame: false,
@@ -48,14 +48,15 @@ app.on('will-quit', () => {
     window.show()
   })
 
-  window.on('hide', () => app.hide())
+  window.on('hide', () => {
+    app.hide()
+    window.webContents.send('hide')
+  })
 
   window.on('focus', () => {
     globalShortcut.register('Esc', () => {
       window.hide()
     })
-
-    window.webContents.send('show')
   })
 
   window.on('blur', () => {

@@ -131,7 +131,7 @@ class Ygg {
     const actionItem = this.getItemById(actionItemId)
 
     if (!actionItem.indirectTypes) {
-      return []
+      return null
     }
 
     const items = await this.getChildrenForItem(item.id)
@@ -156,6 +156,7 @@ class Ygg {
     const directItem = this.getItemById(directItemId)
     const actionItem = this.getItemById(actionItemId)
     const indirectItem = this.getItemById(indirectItemId)
+
     return actionItem.run(directItem, indirectItem)
   }
 
