@@ -1,7 +1,7 @@
 console.clear()
 
 const path = require('path')
-const { app, BrowserWindow, globalShortcut, screen } = require('electron')
+const { app, BrowserWindow, globalShortcut } = require('electron')
 
 const { centerWindowOnDisplayWithCursor } = require('./utils')
 require('./commands')
