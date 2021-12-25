@@ -279,6 +279,9 @@ const App = () => {
                 draft.shouldReplaceActiveFilterText,
               )
               await updateSlots(draft, startAfter(draft.activeSlot))
+              if (draft.shouldReplaceActiveFilterText) {
+                draft.shouldReplaceActiveFilterText = false
+              }
             }),
           )
         }}
