@@ -147,10 +147,7 @@ const App = () => {
           }}
         />
 
-        <div
-          className="inline-flex flex-col dark:bg-gray-800 dark:text-gray-400"
-          ref={appContainerRef}
-        >
+        <div className="inline-flex flex-col" ref={appContainerRef}>
           <EmptyState />
         </div>
       </Fragment>
@@ -287,10 +284,7 @@ const App = () => {
         }}
       />
 
-      <div
-        className="inline-flex flex-col dark:bg-gray-800 dark:text-gray-400"
-        ref={appContainerRef}
-      >
+      <div className="inline-flex flex-col" ref={appContainerRef}>
         <Ygg
           childItems={childItems}
           slotItems={slotItems}
@@ -317,8 +311,8 @@ const Ygg = ({
             className={clsx(
               'flex flex-col items-center justify-center rounded-md flex-shrink-0 w-[9.5rem] h-36 relative',
               {
-                'dark:bg-gray-700/20': !item.active,
-                'dark:bg-gray-700': item.active,
+                'bg-gray-200 dark:bg-gray-700': item.active,
+                'bg-gray-700/30 dark:bg-gray-700/30': !item.active,
               },
             )}
           >
@@ -329,7 +323,7 @@ const Ygg = ({
             )}
 
             <img
-              className="w-24 h-24 rounded"
+              className="flex-shrink-0 w-24 h-24 rounded"
               src={`http://localhost:8080/items/${item?.id}/icon`}
               alt=""
             />
@@ -380,7 +374,7 @@ const Ygg = ({
                   )}
                 >
                   <img
-                    className="w-10 h-10 rounded"
+                    className="flex-shrink-0 w-10 h-10 rounded"
                     src={`http://localhost:8080/items/${item.id}/icon`}
                     alt=""
                   />
@@ -425,15 +419,13 @@ const Ygg = ({
 }
 
 const EmptyState = () => (
-  <div className="inline-flex flex-col dark:bg-gray-800 dark:text-gray-400">
-    <div className="relative inline-flex gap-4 p-4">
-      <div className="flex flex-col items-center justify-center rounded-md flex-shrink-0 w-[9.5rem] h-36 relative dark:bg-gray-700">
-        <div className="flex items-center justify-center w-full px-4">
-          <span className="truncate">Search</span>
-        </div>
+  <div className="relative inline-flex gap-4 p-4">
+    <div className="flex flex-col items-center justify-center rounded-md flex-shrink-0 w-[9.5rem] h-36 relative bg-gray-200 dark:bg-gray-700">
+      <div className="flex items-center justify-center w-full px-4">
+        <span className="truncate">Search</span>
       </div>
-      <div className="rounded-md flex-shrink-0 w-[9.5rem] h-36 relative dark:bg-gray-700/20"></div>
     </div>
+    <div className="rounded-md flex-shrink-0 w-[9.5rem] h-36 relative bg-gray-200/30 dark:bg-gray-700/30"></div>
   </div>
 )
 
