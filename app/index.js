@@ -3,6 +3,7 @@ console.clear()
 const path = require('path')
 const { app, BrowserWindow, globalShortcut, screen } = require('electron')
 
+const { centerWindowOnDisplayWithCursor } = require('./utils')
 require('./commands')
 
 let window
@@ -65,15 +66,3 @@ app.on('will-quit', () => {
 
   window.loadURL('http://localhost:3000')
 })()
-
-const centerWindowOnDisplayWithCursor = (win) => {
-  const point = screen.getCursorScreenPoint()
-  const display = screen.getDisplayNearestPoint(point)
-  const bounds = win.getBounds()
-
-  const x = display.bounds.x + display.size.width / 2 - bounds.width / 2
-  const y = display.bounds.y + display.size.height / 2 - bounds.height / 2
-  const foo = Math.floor(y * 0.9)
-
-  win.setPosition(x, foo)
-}
