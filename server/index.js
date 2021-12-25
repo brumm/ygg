@@ -91,7 +91,7 @@ process.on('uncaughtException', (error) => {
 
 try {
   await fastify.listen(8080)
-  // await ygg.initialize()
+  await ygg.initialize()
 } catch (error) {
   fastify.log.error(error)
   console.error(error)
