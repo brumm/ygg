@@ -1,10 +1,8 @@
 TODO
 
 tackle hiddenItem filter and generic filters
-attempt to select previous item after navigating to parent
 implement github plugin
 make core settings configurable
-attempt to move useEffects into custom hook
 handle copy/paste
 text input mode
   detect text type, match to actions (like urls)
@@ -12,9 +10,13 @@ plugins can contribute additional types to items
   inputType 'com.apple.application' => 'running-process'
   contribute Quit action
 proxies
-notify ui of changed cache so it refetches
 append text to file
+socket rpc instead of http calls
+  notify ui of changed cache so it refetches
+start server from within electron app
+packaging scripts
 
+[x] attempt to select previous item after navigating to parent
 [x] after popup, typing should overwrite existing filter
 [x] virtualize item rendering and keep active item in view
 [x] tackle hidden/visible "source items"
@@ -25,6 +27,7 @@ append text to file
 [x] hash thing internally
 [x] change quicksilver shortcut
 [x] make ygg default
+~~attempt to move useEffects into custom hook~~
 
 providers
   github
