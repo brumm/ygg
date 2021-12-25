@@ -101,13 +101,6 @@ const revealAction = {
   },
 }
 
-const printAction = {
-  types: ['action'],
-  directTypes: ['public.image'],
-  name: 'Print',
-  run: (...args) => console.log('Print', ...args),
-}
-
 const openWithAction = {
   types: ['action'],
   directTypes: ['public.item'],
@@ -119,4 +112,4 @@ const openWithAction = {
 }
 
 export const providers = [folderItemsProvider]
-export const actions = [openAction, revealAction, printAction, openWithAction]
+export const actions = [openAction, revealAction, openWithAction]
