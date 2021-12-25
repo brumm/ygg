@@ -6,7 +6,7 @@ import fastifyHttpErrorsEnhanced from 'fastify-http-errors-enhanced'
 
 import Ygg from './core.js'
 
-import * as fileSystemPlugin from './plugins/file-system'
+import * as fileSystemPlugin from './plugins/file-system/index.js'
 import * as corePlugin from './plugins/core.js'
 import * as plainTextPlugin from './plugins/plain-text.js'
 
