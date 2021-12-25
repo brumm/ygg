@@ -61,6 +61,7 @@ app.on('will-quit', () => {
   })
 
   window.on('blur', () => {
+    window.hide()
     globalShortcut.unregister('Esc')
   })
 
