@@ -116,6 +116,7 @@ export const setId = (draft, id) => {
 export const stepInto = async (draft) => {
   draft.items = await api(`/items/${draft.id}/children`)
   draft.id = draft.items[0].id
+  draft.filterText = null
 }
 
 export const stepOutOf = async (draft) => {
