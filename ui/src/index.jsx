@@ -439,14 +439,14 @@ const EmptyState = () => (
 
 const KeyHandler = ({ enabled, handler }) => {
   React.useLayoutEffect(() => {
-    const foo = (event) => {
+    const _handler = (event) => {
       if (enabled(event)) {
         handler(event)
       }
     }
 
-    document.addEventListener('keydown', foo)
-    return () => document.removeEventListener('keydown', foo)
+    document.addEventListener('keydown', _handler)
+    return () => document.removeEventListener('keydown', _handler)
   }, [enabled, handler])
 
   return null
