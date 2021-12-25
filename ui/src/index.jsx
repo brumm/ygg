@@ -140,7 +140,7 @@ const App = () => {
               await produce(state, async (draft) => {
                 await initializeState(draft)
                 await updateSlots(draft)
-                filterItems(draft[draft.activeSlot], event.key)
+                await filterItems(draft[draft.activeSlot], event.key)
                 await updateSlots(draft, startAfter(draft.activeSlot))
               }),
             )
@@ -273,7 +273,7 @@ const App = () => {
           event.preventDefault()
           setState(
             await produce(state, async (draft) => {
-              filterItems(
+              await filterItems(
                 draft[draft.activeSlot],
                 event.key,
                 draft.shouldReplaceActiveFilterText,

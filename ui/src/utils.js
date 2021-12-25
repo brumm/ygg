@@ -76,8 +76,12 @@ const clearState = (draft) => {
   return draft
 }
 
-export const filterItems = async (draft, filterText, replace = false) => {
-  if (replace) {
+export const filterItems = async (
+  draft,
+  filterText,
+  replaceFilterText = false,
+) => {
+  if (replaceFilterText) {
     draft.filterText = filterText
   } else {
     if (draft.filterText === null) {
@@ -85,6 +89,11 @@ export const filterItems = async (draft, filterText, replace = false) => {
     } else {
       draft.filterText += filterText
     }
+  }
+
+  if (replaceFilterText) {
+    const item = draft.items.find((item) => item.id === draft.id)
+    draft.items = await api(`/items/${item.parentId}/children`)
   }
 
   const filteredItems = matchSorter(draft.items, draft.filterText, {
