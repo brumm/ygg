@@ -78,7 +78,7 @@ class Ygg {
 
     let children = []
     for (const provider of matchingProviders) {
-      const items = await this.runProvider(provider, parentItem.meta, this)
+      const items = await this.runProvider(provider, parentItem.meta)
       children = children.concat(items)
     }
 
