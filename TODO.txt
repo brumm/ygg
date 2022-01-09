@@ -16,6 +16,7 @@ socket rpc instead of http calls
 start server from within electron app
 packaging scripts
 
+[x] sort by usage frequency
 [x] attempt to select previous item after navigating to parent
 [x] after popup, typing should overwrite existing filter
 [x] virtualize item rendering and keep active item in view

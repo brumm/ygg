@@ -23,6 +23,7 @@ class Ygg {
   providers = []
   actions = []
   iconCache = {}
+  usageFrequencyCache = {}
 
   constructor({ plugins }) {
     const context = {
@@ -85,6 +86,7 @@ class Ygg {
     for (const item of children) {
       item.id = item.id || itemToId(item)
       item.parentId = parentItem.id
+      item.usage = this.usageFrequencyCache[item.id] || 0
       item.hasChildren = this.providers.some(
         sift({ inputTypes: { $in: item.types } }),
       )
@@ -111,9 +113,8 @@ class Ygg {
     for (const item of actions) {
       item.id = item.id || itemToId(item)
       item.parentId = actionCatalogItem.id
-      item.hasChildren = this.providers.some(
-        sift({ inputTypes: { $in: item.types } }),
-      )
+      item.usage = this.usageFrequencyCache[item.id] || 0
+      item.hasChildren = false
     }
 
     actions = actions.filter(
@@ -156,6 +157,12 @@ class Ygg {
     const directItem = this.getItemById(directItemId)
     const actionItem = this.getItemById(actionItemId)
     const indirectItem = this.getItemById(indirectItemId)
+
+    this.usageFrequencyCache[directItem.id] ||= 0
+    this.usageFrequencyCache[directItem.id] += 1
+
+    this.usageFrequencyCache[actionItem.id] ||= 0
+    this.usageFrequencyCache[actionItem.id] += 1
 
     return actionItem.run(directItem, indirectItem)
   }

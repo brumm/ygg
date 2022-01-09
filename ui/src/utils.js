@@ -1,12 +1,17 @@
-import { matchSorter } from 'match-sorter'
+import { matchSorter as _matchSorter } from 'match-sorter'
 
 import api from './api'
 
-const ITEM_FILTER_KEYS = ['name', 'details']
 export const SLOT_NAMES = ['direct', 'action', 'indirect']
 
 export const wrapAround = (value, bounds) =>
   ((value % bounds) + bounds) % bounds
+
+const matchSorter = (items, text) =>
+  _matchSorter(items, text, {
+    keys: ['name', 'details'],
+    baseSort: (a, b) => (a.item.usage < b.item.usage ? +1 : -1),
+  })
 
 const updateSlot = async (draft, slotName) => {
   switch (slotName) {
@@ -96,9 +101,7 @@ export const filterItems = async (
     draft.items = await api(`/items/${item.parentId}/children`)
   }
 
-  const filteredItems = matchSorter(draft.items, draft.filterText, {
-    keys: ITEM_FILTER_KEYS,
-  })
+  const filteredItems = matchSorter(draft.items, draft.filterText)
 
   if (filteredItems.length) {
     draft.items = filteredItems
@@ -124,9 +127,7 @@ export const stepOutOf = async (draft) => {
   const parent = await api(`/items/${item.parentId}`)
   draft.items = await api(`/items/${parent.parentId}/children`)
   if (draft.filterText !== null) {
-    draft.items = matchSorter(draft.items, draft.filterText, {
-      keys: ITEM_FILTER_KEYS,
-    })
+    draft.items = matchSorter(draft.items, draft.filterText)
   }
   draft.id = parent.id
 }
