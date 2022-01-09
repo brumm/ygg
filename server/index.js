@@ -26,59 +26,53 @@ global.ygg = ygg
 
 // --- item
 
-fastify.get('/items/:itemId', async (request, reply) => {
+fastify.get('/items/:itemId', async (request) => {
   return ygg.getItemById(request.params.itemId)
 })
 
 // --- direct
 
-fastify.get('/items/:itemId/children', async (request, reply) => {
+fastify.get('/items/:itemId/children', async (request) => {
   return ygg.getChildrenForItem(request.params.itemId)
 })
 
 // --- action
 
-fastify.get('/items/:itemId/actions', async (request, reply) => {
+fastify.get('/items/:itemId/actions', async (request) => {
   return ygg.getActionsForItem(request.params.itemId)
 })
 
 // --- indirect
 
-fastify.get(
-  '/items/default/actions/:actionId/indirects',
-  async (request, reply) => {
-    if (!action.indirectTypes) {
-      return []
-    }
+fastify.get('/items/default/actions/:actionId/indirects', async (request) => {
+  if (!action.indirectTypes) {
+    return []
+  }
 
-    return ygg.getIndirectsForAction(null, request.params.actionId)
-  },
-)
+  return ygg.getIndirectsForAction(null, request.params.actionId)
+})
 
-fastify.get(
-  '/items/:itemId/actions/:actionId/indirects',
-  async (request, reply) => {
-    return ygg.getIndirectsForAction(
-      request.params.itemId,
-      request.params.actionId,
-    )
-  },
-)
+fastify.get('/items/:itemId/actions/:actionId/indirects', async (request) => {
+  return ygg.getIndirectsForAction(
+    request.params.itemId,
+    request.params.actionId,
+  )
+})
 
 // --- execute
 
-fastify.post('/execute-command', async (request, reply) => {
+fastify.post('/execute-command', async (request) => {
   const { directId, actionId, indirectId } = JSON.parse(request.body)
   return ygg.runAction(directId, actionId, indirectId)
 })
 
 // --- icons
 
-fastify.get('/items/:itemId/icon', async (request, reply) => {
+fastify.get('/items/:itemId/icon', async (request) => {
   return ygg.getIconForItem(request.params.itemId)
 })
 
-fastify.get('/actions/:actionId/icon', async (request, reply) => {
+fastify.get('/actions/:actionId/icon', async (request) => {
   return ygg.getIconForItem(request.params.actionId)
 })
 
