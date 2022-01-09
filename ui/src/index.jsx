@@ -177,6 +177,7 @@ const App = () => {
 
           setState(
             await produce(state, async (draft) => {
+              draft.activeSlot = 'direct'
               await updateSlots(draft)
             }),
           )
