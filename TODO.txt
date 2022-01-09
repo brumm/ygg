@@ -8,7 +8,7 @@ text input mode
   detect text type, match to actions (like urls)
 plugins can contribute additional types to items
   inputType 'com.apple.application' => 'running-process'
-  contribute Quit action
+  can contribute Quit action
 proxies
 append text to file
 socket rpc instead of http calls
